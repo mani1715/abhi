@@ -15,9 +15,33 @@ const AdminsManager = () => {
     password: '',
     role: 'admin',
     permissions: {
+      // Admin Management
       canManageAdmins: false,
-      canViewPrivateProjects: true,
-      canAccessStorage: false
+      // Content Management
+      canManageAbout: true,
+      canManagePortfolio: true,
+      canManageBlogs: true,
+      canManageTestimonials: true,
+      canManageDemos: true,
+      // Communication
+      canViewContacts: true,
+      canManageContactPage: true,
+      canManageChat: true,
+      canManageNewsletter: true,
+      // Business Features
+      canManageBookings: true,
+      canManageBookingSettings: false,
+      canManagePricing: true,
+      canViewAnalytics: true,
+      // Client Management
+      canManageClients: true,
+      canManageClientProjects: true,
+      // System
+      canAccessStorage: false,
+      canManageNotes: true,
+      canManageSettings: false,
+      // Legacy
+      canViewPrivateProjects: true
     }
   });
 
