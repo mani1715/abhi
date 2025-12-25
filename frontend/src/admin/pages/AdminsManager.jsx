@@ -167,8 +167,25 @@ const AdminsManager = () => {
         role: 'admin',
         permissions: {
           canManageAdmins: false,
-          canViewPrivateProjects: true,
-          canAccessStorage: false
+          canManageAbout: true,
+          canManagePortfolio: true,
+          canManageBlogs: true,
+          canManageTestimonials: true,
+          canManageDemos: true,
+          canViewContacts: true,
+          canManageContactPage: true,
+          canManageChat: true,
+          canManageNewsletter: true,
+          canManageBookings: true,
+          canManageBookingSettings: false,
+          canManagePricing: true,
+          canViewAnalytics: true,
+          canManageClients: true,
+          canManageClientProjects: true,
+          canAccessStorage: false,
+          canManageNotes: true,
+          canManageSettings: false,
+          canViewPrivateProjects: true
         }
       });
     }
