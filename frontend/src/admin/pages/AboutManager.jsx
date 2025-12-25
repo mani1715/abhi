@@ -344,59 +344,143 @@ const AboutManager = () => {
       {/* Content Sections */}
       <div style={{ 
         background: 'white', 
-        padding: '40px', 
-        borderRadius: '12px', 
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        border: '1px solid #E5E7EB'
+        padding: '32px', 
+        borderRadius: '0 0 12px 12px', 
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        minHeight: '400px'
       }}>
         
         {/* Hero Section */}
         {activeTab === 'hero' && (
           <div>
-            <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px' }}>Hero Section</h2>
+            <div style={{ 
+              marginBottom: '32px', 
+              paddingBottom: '20px', 
+              borderBottom: '2px solid #F3F4F6' 
+            }}>
+              <h2 style={{ 
+                fontSize: '24px', 
+                fontWeight: '700', 
+                color: '#1F2937',
+                margin: '0 0 8px 0'
+              }}>
+                Hero Section
+              </h2>
+              <p style={{ margin: 0, color: '#6B7280', fontSize: '14px' }}>
+                The main banner area that appears at the top of the About page
+              </p>
+            </div>
             
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Badge Text</label>
-              <input
-                type="text"
-                value={aboutContent.hero_badge || ''}
-                onChange={(e) => updateField('hero_badge', e.target.value)}
-                className="admin-input"
-                placeholder="Premium Web Development Agency"
-              />
-            </div>
+            <div style={{ display: 'grid', gap: '24px', maxWidth: '800px' }}>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '600',
+                  color: '#374151',
+                  fontSize: '14px'
+                }}>
+                  Badge Text
+                </label>
+                <input
+                  type="text"
+                  value={aboutContent.hero_badge || ''}
+                  onChange={(e) => updateField('hero_badge', e.target.value)}
+                  className="admin-input"
+                  placeholder="Premium Web Development Agency"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    fontSize: '15px',
+                    border: '2px solid #E5E7EB',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                />
+              </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Title</label>
-              <input
-                type="text"
-                value={aboutContent.hero_title || ''}
-                onChange={(e) => updateField('hero_title', e.target.value)}
-                className="admin-input"
-                placeholder="About MSPN DEV"
-              />
-            </div>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '600',
+                  color: '#374151',
+                  fontSize: '14px'
+                }}>
+                  Title
+                </label>
+                <input
+                  type="text"
+                  value={aboutContent.hero_title || ''}
+                  onChange={(e) => updateField('hero_title', e.target.value)}
+                  className="admin-input"
+                  placeholder="About MSPN DEV"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    fontSize: '15px',
+                    border: '2px solid #E5E7EB',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                />
+              </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Subtitle</label>
-              <input
-                type="text"
-                value={aboutContent.hero_subtitle || ''}
-                onChange={(e) => updateField('hero_subtitle', e.target.value)}
-                className="admin-input"
-                placeholder="Crafting Digital Excellence..."
-              />
-            </div>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '600',
+                  color: '#374151',
+                  fontSize: '14px'
+                }}>
+                  Subtitle
+                </label>
+                <input
+                  type="text"
+                  value={aboutContent.hero_subtitle || ''}
+                  onChange={(e) => updateField('hero_subtitle', e.target.value)}
+                  className="admin-input"
+                  placeholder="Crafting Digital Excellence..."
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    fontSize: '15px',
+                    border: '2px solid #E5E7EB',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                />
+              </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Description</label>
-              <textarea
-                value={aboutContent.hero_description || ''}
-                onChange={(e) => updateField('hero_description', e.target.value)}
-                className="admin-textarea"
-                rows={3}
-                placeholder="Building exceptional digital experiences..."
-              />
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '600',
+                  color: '#374151',
+                  fontSize: '14px'
+                }}>
+                  Description
+                </label>
+                <textarea
+                  value={aboutContent.hero_description || ''}
+                  onChange={(e) => updateField('hero_description', e.target.value)}
+                  className="admin-textarea"
+                  rows={4}
+                  placeholder="Building exceptional digital experiences..."
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    fontSize: '15px',
+                    border: '2px solid #E5E7EB',
+                    borderRadius: '8px',
+                    resize: 'vertical',
+                    fontFamily: 'inherit',
+                    lineHeight: '1.5'
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}
