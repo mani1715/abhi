@@ -42,6 +42,23 @@ from routes.booking_settings import router as booking_settings_router
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# =============================================================================
+# RENDER DEPLOYMENT CONFIGURATION
+# =============================================================================
+# Render will provide the PORT environment variable automatically
+# For local development, it defaults to 8001
+# 
+# START COMMAND FOR RENDER:
+# uvicorn server:app --host 0.0.0.0 --port $PORT
+#
+# This allows the application to:
+# 1. Bind to all network interfaces (0.0.0.0)
+# 2. Use the port provided by Render's environment
+# 3. Work seamlessly in both development and production
+# =============================================================================
+
+PORT = int(os.environ.get("PORT", 8001))
+
 # Create the main app without a prefix
 app = FastAPI(
     title="MSPN DEV API",
