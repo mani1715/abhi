@@ -11,7 +11,7 @@ class ContactHero(BaseModel):
 class FormField(BaseModel):
     """Form field configuration"""
     label: str
-    placeholder: str
+    placeholder: Optional[str] = ""
     required: bool = False
     type: str = "text"
     options: Optional[List[Dict[str, str]]] = None
