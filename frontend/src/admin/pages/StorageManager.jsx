@@ -112,7 +112,7 @@ const StorageManager = () => {
           formDataUpload.append('file', file);
           
           const response = await axios.post(
-            `${BACKEND_URL}/api/storage/upload`,
+            `${BACKEND_URL}/storage/upload`,
             formDataUpload,
             {
               headers: {
