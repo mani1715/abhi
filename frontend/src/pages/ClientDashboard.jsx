@@ -39,6 +39,16 @@ export default function ClientDashboard() {
   const [submittingComment, setSubmittingComment] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Testimonial submission state
+  const [showTestimonialDialog, setShowTestimonialDialog] = useState(false);
+  const [testimonialData, setTestimonialData] = useState({
+    role: '',
+    message: '',
+    rating: 5
+  });
+  const [submittingTestimonial, setSubmittingTestimonial] = useState(false);
+  const [hoveredStar, setHoveredStar] = useState(0);
+
   useEffect(() => {
     const token = localStorage.getItem('client_token');
     const clientData = localStorage.getItem('client_data');
