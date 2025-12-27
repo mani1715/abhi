@@ -838,6 +838,151 @@ export default function ClientDashboard() {
           </div>
         )}
       </main>
+
+      {/* Testimonial Submission Dialog */}
+      <Dialog open={showTestimonialDialog} onOpenChange={setShowTestimonialDialog}>
+        <DialogContent className="sm:max-w-[550px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl">
+              <Star className="w-6 h-6 text-yellow-500 fill-current" />
+              Submit Your Testimonial
+            </DialogTitle>
+            <DialogDescription>
+              Share your experience working with us! Your feedback helps us improve and helps others make informed decisions.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <form onSubmit={handleSubmitTestimonial}>
+            <div className="space-y-6 py-4">
+              {/* Pre-filled Name */}
+              <div className="space-y-2">
+                <Label htmlFor="testimonial-name">Your Name</Label>
+                <Input
+                  id="testimonial-name"
+                  value={client?.name || ''}
+                  disabled
+                  className="bg-gray-50"
+                />
+              </div>
+
+              {/* Pre-filled Company */}
+              {client?.company && (
+                <div className="space-y-2">
+                  <Label htmlFor="testimonial-company">Company</Label>
+                  <Input
+                    id="testimonial-company"
+                    value={client.company}
+                    disabled
+                    className="bg-gray-50"
+                  />
+                </div>
+              )}
+
+              {/* Role/Position (Optional) */}
+              <div className="space-y-2">
+                <Label htmlFor="testimonial-role">
+                  Your Role/Position <span className="text-gray-400 text-sm">(optional)</span>
+                </Label>
+                <Input
+                  id="testimonial-role"
+                  value={testimonialData.role}
+                  onChange={(e) => setTestimonialData({ ...testimonialData, role: e.target.value })}
+                  placeholder="e.g., CEO, Marketing Manager, Developer"
+                />
+              </div>
+
+              {/* Star Rating */}
+              <div className="space-y-2">
+                <Label>Rating</Label>
+                <div className="flex items-center gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setTestimonialData({ ...testimonialData, rating: star })}
+                      onMouseEnter={() => setHoveredStar(star)}
+                      onMouseLeave={() => setHoveredStar(0)}
+                      className="transition-transform hover:scale-110 focus:outline-none"
+                    >
+                      <Star
+                        className={`w-8 h-8 ${
+                          star <= (hoveredStar || testimonialData.rating)
+                            ? 'text-yellow-400 fill-current'
+                            : 'text-gray-300'
+                        } transition-colors`}
+                      />
+                    </button>
+                  ))}
+                  <span className="ml-2 text-sm text-gray-600">
+                    {testimonialData.rating} {testimonialData.rating === 1 ? 'star' : 'stars'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Message */}
+              <div className="space-y-2">
+                <Label htmlFor="testimonial-message">
+                  Your Testimonial <span className="text-red-500">*</span>
+                </Label>
+                <Textarea
+                  id="testimonial-message"
+                  value={testimonialData.message}
+                  onChange={(e) => setTestimonialData({ ...testimonialData, message: e.target.value })}
+                  placeholder="Tell us about your experience working with our team..."
+                  rows={5}
+                  className="resize-none"
+                  required
+                />
+                <p className="text-xs text-gray-500 flex items-center justify-between">
+                  <span>Minimum 10 characters</span>
+                  <span className={testimonialData.message.length < 10 ? 'text-red-500' : 'text-green-600'}>
+                    {testimonialData.message.length} characters
+                  </span>
+                </p>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <p className="text-xs text-blue-800 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" />
+                  Your testimonial will be reviewed by our team before being published on the website.
+                </p>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setShowTestimonialDialog(false);
+                  setTestimonialData({ role: '', message: '', rating: 5 });
+                  setHoveredStar(0);
+                }}
+                disabled={submittingTestimonial}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={submittingTestimonial || testimonialData.message.length < 10}
+                className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700"
+              >
+                {submittingTestimonial ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <Star className="w-4 h-4 mr-2 fill-current" />
+                    Submit Testimonial
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
