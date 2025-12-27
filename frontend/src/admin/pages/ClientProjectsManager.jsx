@@ -405,15 +405,15 @@ export default function ClientProjectsManager() {
   }
 
   return (
-    <div className="p-6" data-testid="client-projects-manager">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 md:p-6 max-w-[1800px] mx-auto" data-testid="client-projects-manager">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Client Projects</h1>
           <p className="text-gray-600 mt-1">Manage client projects and deliverables</p>
         </div>
         <Button
           onClick={() => setIsDialogOpen(true)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full sm:w-auto justify-center"
           data-testid="create-project-btn"
         >
           <Plus className="w-4 h-4" />
@@ -421,17 +421,18 @@ export default function ClientProjectsManager() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
         {/* Projects List */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-3">
           <div className="bg-white rounded-lg shadow border">
             <div className="p-4 border-b">
-              <h2 className="font-semibold text-gray-900">All Projects</h2>
+              <h2 className="font-semibold text-gray-900">All Projects ({projects.length})</h2>
             </div>
             <div className="divide-y max-h-[calc(100vh-250px)] overflow-y-auto">
               {projects.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
-                  No projects found.
+                  <p className="text-sm">No projects found.</p>
+                  <p className="text-xs mt-2">Create your first project to get started.</p>
                 </div>
               ) : (
                 projects.map((project) => (
@@ -446,17 +447,17 @@ export default function ClientProjectsManager() {
                     }}
                     data-testid={`project-item-${project.id}`}
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-900">{project.name}</h3>
-                        <p className="text-sm text-gray-600">{getClientName(project.client_id)}</p>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{project.name}</h3>
+                        <p className="text-xs text-gray-600 truncate">{getClientName(project.client_id)}</p>
                       </div>
-                      <Badge className={getStatusColor(project.status)}>
+                      <Badge className={`${getStatusColor(project.status)} text-xs shrink-0`}>
                         {getStatusLabel(project.status)}
                       </Badge>
                     </div>
                     <div className="mt-2">
-                      <div className="flex items-center justify-between text-sm mb-1">
+                      <div className="flex items-center justify-between text-xs mb-1">
                         <span className="text-gray-600">Progress</span>
                         <span className="font-medium">{project.progress}%</span>
                       </div>
@@ -470,102 +471,110 @@ export default function ClientProjectsManager() {
         </div>
 
         {/* Project Details */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-9">
           {selectedProject ? (
             <div className="bg-white rounded-lg shadow border">
-              <div className="p-4 border-b flex items-center justify-between">
-                <div>
-                  <h2 className="font-semibold text-gray-900 text-xl">{selectedProject.name}</h2>
-                  <p className="text-sm text-gray-600">{getClientName(selectedProject.client_id)}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleEdit(selectedProject)}
-                    data-testid="edit-selected-project-btn"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDelete(selectedProject.id)}
-                    className="text-red-600 hover:text-red-700"
-                    data-testid="delete-selected-project-btn"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+              <div className="p-4 border-b">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-semibold text-gray-900 text-xl truncate">{selectedProject.name}</h2>
+                    <p className="text-sm text-gray-600 truncate">{getClientName(selectedProject.client_id)}</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(selectedProject)}
+                      data-testid="edit-selected-project-btn"
+                    >
+                      <Edit className="w-4 h-4 mr-1" />
+                      <span className="hidden sm:inline">Edit</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(selectedProject.id)}
+                      className="text-red-600 hover:text-red-700"
+                      data-testid="delete-selected-project-btn"
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" />
+                      <span className="hidden sm:inline">Delete</span>
+                    </Button>
+                  </div>
                 </div>
               </div>
 
               <div className="p-4">
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-6">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="milestones">
-                      <Target className="w-4 h-4 mr-1" />
-                      Milestones
-                    </TabsTrigger>
-                    <TabsTrigger value="tasks">
-                      <ListChecks className="w-4 h-4 mr-1" />
-                      Tasks
-                    </TabsTrigger>
-                    <TabsTrigger value="team">
-                      <Users className="w-4 h-4 mr-1" />
-                      Team
-                    </TabsTrigger>
-                    <TabsTrigger value="budget">
-                      <DollarSign className="w-4 h-4 mr-1" />
-                      Budget
-                    </TabsTrigger>
-                    <TabsTrigger value="files">
-                      <FileText className="w-4 h-4 mr-1" />
-                      Files
-                    </TabsTrigger>
-                    <TabsTrigger value="activity">
-                      <Activity className="w-4 h-4 mr-1" />
-                      Activity
-                    </TabsTrigger>
-                    <TabsTrigger value="chat">
-                      <MessageCircle className="w-4 h-4 mr-1" />
-                      Chat
-                    </TabsTrigger>
-                  </TabsList>
+                  <div className="overflow-x-auto mb-6 -mx-4 px-4">
+                    <TabsList className="inline-flex w-auto min-w-full">
+                      <TabsTrigger value="overview" className="flex-shrink-0">Overview</TabsTrigger>
+                      <TabsTrigger value="milestones" className="flex-shrink-0">
+                        <Target className="w-4 h-4 mr-1" />
+                        Milestones
+                      </TabsTrigger>
+                      <TabsTrigger value="tasks" className="flex-shrink-0">
+                        <ListChecks className="w-4 h-4 mr-1" />
+                        Tasks
+                      </TabsTrigger>
+                      <TabsTrigger value="team" className="flex-shrink-0">
+                        <Users className="w-4 h-4 mr-1" />
+                        Team
+                      </TabsTrigger>
+                      <TabsTrigger value="budget" className="flex-shrink-0">
+                        <DollarSign className="w-4 h-4 mr-1" />
+                        Budget
+                      </TabsTrigger>
+                      <TabsTrigger value="files" className="flex-shrink-0">
+                        <FileText className="w-4 h-4 mr-1" />
+                        Files
+                      </TabsTrigger>
+                      <TabsTrigger value="activity" className="flex-shrink-0">
+                        <Activity className="w-4 h-4 mr-1" />
+                        Activity
+                      </TabsTrigger>
+                      <TabsTrigger value="chat" className="flex-shrink-0">
+                        <MessageCircle className="w-4 h-4 mr-1" />
+                        Chat
+                      </TabsTrigger>
+                    </TabsList>
+                  </div>
 
                   {/* Overview Tab */}
                   <TabsContent value="overview" className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label className="text-gray-600">Status</Label>
-                        <Badge className={getStatusColor(selectedProject.status)}>
-                          {getStatusLabel(selectedProject.status)}
-                        </Badge>
+                        <Label className="text-gray-600 text-sm font-medium">Status</Label>
+                        <div className="mt-1">
+                          <Badge className={getStatusColor(selectedProject.status)}>
+                            {getStatusLabel(selectedProject.status)}
+                          </Badge>
+                        </div>
                       </div>
                       <div>
-                        <Label className="text-gray-600">Progress</Label>
-                        <p className="font-medium">{selectedProject.progress}%</p>
-                        <Progress value={selectedProject.progress} className="h-2 mt-1" />
+                        <Label className="text-gray-600 text-sm font-medium">Progress</Label>
+                        <p className="font-medium mt-1">{selectedProject.progress}%</p>
+                        <Progress value={selectedProject.progress} className="h-2 mt-2" />
                       </div>
                     </div>
                     {selectedProject.description && (
                       <div>
-                        <Label className="text-gray-600">Description</Label>
-                        <p className="text-gray-900">{selectedProject.description}</p>
+                        <Label className="text-gray-600 text-sm font-medium">Description</Label>
+                        <p className="text-gray-900 mt-1">{selectedProject.description}</p>
                       </div>
                     )}
                     {selectedProject.expected_delivery && (
                       <div>
-                        <Label className="text-gray-600">Expected Delivery</Label>
-                        <p className="font-medium">
+                        <Label className="text-gray-600 text-sm font-medium">Expected Delivery</Label>
+                        <p className="font-medium mt-1">
                           {new Date(selectedProject.expected_delivery).toLocaleDateString()}
                         </p>
                       </div>
                     )}
                     {selectedProject.notes && (
                       <div>
-                        <Label className="text-gray-600">Notes</Label>
-                        <div className="bg-gray-50 p-3 rounded whitespace-pre-wrap text-sm">
+                        <Label className="text-gray-600 text-sm font-medium">Notes</Label>
+                        <div className="bg-gray-50 p-3 rounded whitespace-pre-wrap text-sm mt-1">
                           {selectedProject.notes}
                         </div>
                       </div>
