@@ -96,6 +96,17 @@ def convert_project_to_response(project_doc) -> ClientProjectResponse:
                 created_at=c['created_at'] if isinstance(c['created_at'], str) else c['created_at'].isoformat()
             ) for c in project_doc.get('comments', [])
         ],
+        chat_messages=[
+            ChatMessageResponse(
+                id=cm['id'],
+                sender_id=cm['sender_id'],
+                sender_name=cm['sender_name'],
+                sender_type=cm['sender_type'],
+                message=cm['message'],
+                read=cm.get('read', False),
+                created_at=cm['created_at'] if isinstance(cm['created_at'], str) else cm['created_at'].isoformat()
+            ) for cm in project_doc.get('chat_messages', [])
+        ],
         activity_log=[
             ActivityResponse(
                 id=a['id'],
