@@ -216,6 +216,43 @@ export default function ClientDashboard() {
     }
   };
 
+  const handleSubmitTestimonial = async (e) => {
+    e.preventDefault();
+    
+    if (!testimonialData.message.trim() || testimonialData.message.length < 10) {
+      toast.error('Please write at least 10 characters for your testimonial');
+      return;
+    }
+
+    setSubmittingTestimonial(true);
+    const token = localStorage.getItem('client_token');
+
+    try {
+      await api.post('/testimonials/client/submit', 
+        {
+          role: testimonialData.role || '',
+          message: testimonialData.message,
+          rating: testimonialData.rating
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      
+      toast.success('🎉 Thank you! Your testimonial has been submitted for review.');
+      setShowTestimonialDialog(false);
+      setTestimonialData({ role: '', message: '', rating: 5 });
+      setHoveredStar(0);
+    } catch (error) {
+      console.error('Error submitting testimonial:', error);
+      toast.error('Failed to submit testimonial. Please try again.');
+    } finally {
+      setSubmittingTestimonial(false);
+    }
+  };
+
   const getStatusColor = (status) => {
     const colors = {
       pending: 'bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 border border-yellow-300',
