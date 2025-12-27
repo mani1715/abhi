@@ -46,6 +46,16 @@ class ProjectComment(BaseModel):
     message: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+class ChatMessage(BaseModel):
+    """Chat message between client and admin"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    sender_id: str  # Admin or Client ID
+    sender_name: str
+    sender_type: str  # admin or client
+    message: str
+    read: bool = False  # Has the message been read
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
 class ProjectActivity(BaseModel):
     """Activity log entry"""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
