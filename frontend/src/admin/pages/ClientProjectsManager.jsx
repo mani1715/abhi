@@ -474,11 +474,11 @@ export default function ClientProjectsManager() {
         <div className="lg:col-span-9">
           {selectedProject ? (
             <div className="bg-white rounded-lg shadow border">
-              <div className="p-4 border-b">
+              <div className="p-4 sm:p-6 border-b">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="min-w-0 flex-1">
-                    <h2 className="font-semibold text-gray-900 text-xl truncate">{selectedProject.name}</h2>
-                    <p className="text-sm text-gray-600 truncate">{getClientName(selectedProject.client_id)}</p>
+                    <h2 className="font-semibold text-gray-900 text-xl truncate leading-tight">{selectedProject.name}</h2>
+                    <p className="text-sm text-gray-600 truncate mt-1.5">{getClientName(selectedProject.client_id)}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Button
@@ -504,9 +504,9 @@ export default function ClientProjectsManager() {
                 </div>
               </div>
 
-              <div className="p-4">
+              <div className="p-4 sm:p-6">
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <div className="overflow-x-auto mb-6 -mx-4 px-4">
+                  <div className="overflow-x-auto mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6">
                     <TabsList className="inline-flex w-auto min-w-full">
                       <TabsTrigger value="overview" className="flex-shrink-0">Overview</TabsTrigger>
                       <TabsTrigger value="milestones" className="flex-shrink-0">
