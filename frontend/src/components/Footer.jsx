@@ -155,14 +155,6 @@ const Footer = () => {
                   <MessageCircle className="h-5 w-5" />
                 </button>
               )}
-              <Link
-                to="/admin/login"
-                className="social-link admin-link"
-                aria-label="Admin Panel"
-                title="Admin Panel"
-              >
-                <Shield className="h-5 w-5" />
-              </Link>
             </div>
           </div>
 
