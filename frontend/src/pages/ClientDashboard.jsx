@@ -377,6 +377,7 @@ export default function ClientDashboard() {
                 Logout
               </Button>
             </div>
+          </div>
         </div>
       </header>
 
