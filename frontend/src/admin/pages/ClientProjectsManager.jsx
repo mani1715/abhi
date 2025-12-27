@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
@@ -18,18 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../components/ui/select';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../../components/ui/table';
 import { Badge } from '../../components/ui/badge';
 import { Progress } from '../../components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2, Upload, Download, FileText, X } from 'lucide-react';
+import { 
+  Plus, Edit, Trash2, Upload, Download, FileText, X, Target, ListChecks, 
+  Users, DollarSign, Activity, MessageCircle, Send, Calendar, CheckCircle2,
+  User, Clock
+} from 'lucide-react';
 import clientService from '../../services/clientService';
 
 export default function ClientProjectsManager() {
@@ -40,14 +37,29 @@ export default function ClientProjectsManager() {
   const [editingProject, setEditingProject] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessage, setChatMessage] = useState('');
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const chatEndRef = useRef(null);
+
+  // Milestone/Task/Team/Budget Dialog States
+  const [milestoneDialog, setMilestoneDialog] = useState({ open: false, data: null });
+  const [taskDialog, setTaskDialog] = useState({ open: false, data: null });
+  const [teamDialog, setTeamDialog] = useState({ open: false, data: null });
+  const [budgetDialog, setBudgetDialog] = useState({ open: false, data: null });
+
   const [formData, setFormData] = useState({
     name: '',
     client_id: '',
     description: '',
     status: 'pending',
+    priority: 'medium',
     progress: 0,
+    start_date: '',
     expected_delivery: '',
-    notes: ''
+    notes: '',
+    tags: []
   });
 
   useEffect(() => {
@@ -55,10 +67,27 @@ export default function ClientProjectsManager() {
     fetchClients();
   }, []);
 
+  useEffect(() => {
+    if (selectedProject && activeTab === 'chat') {
+      fetchChatMessages();
+    }
+  }, [selectedProject, activeTab]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
+
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const fetchProjects = async () => {
     try {
       const data = await clientService.getAllClientProjects();
       setProjects(data);
+      if (data.length > 0 && !selectedProject) {
+        setSelectedProject(data[0]);
+      }
     } catch (error) {
       console.error('Error fetching projects:', error);
       toast.error('Failed to fetch projects');
@@ -73,6 +102,47 @@ export default function ClientProjectsManager() {
       setClients(data);
     } catch (error) {
       console.error('Error fetching clients:', error);
+    }
+  };
+
+  const fetchChatMessages = async () => {
+    if (!selectedProject) return;
+    
+    try {
+      const messages = await clientService.getAdminChatMessages(selectedProject.id);
+      setChatMessages(messages);
+    } catch (error) {
+      console.error('Error fetching chat messages:', error);
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!chatMessage.trim() || !selectedProject) return;
+
+    setSendingMessage(true);
+
+    try {
+      await clientService.sendAdminChatMessage(selectedProject.id, chatMessage);
+      setChatMessage('');
+      fetchChatMessages();
+      toast.success('Message sent!');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message');
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
+  const refreshSelectedProject = async () => {
+    if (!selectedProject) return;
+    try {
+      const updated = await clientService.getProject(selectedProject.id);
+      setSelectedProject(updated);
+      fetchProjects();
+    } catch (error) {
+      console.error('Error refreshing project:', error);
     }
   };
 
@@ -98,7 +168,7 @@ export default function ClientProjectsManager() {
   };
 
   const handleDelete = async (projectId) => {
-    if (!window.confirm('Are you sure you want to delete this project? All associated files will be deleted.')) {
+    if (!window.confirm('Are you sure you want to delete this project?')) {
       return;
     }
 
@@ -122,9 +192,12 @@ export default function ClientProjectsManager() {
       client_id: project.client_id,
       description: project.description || '',
       status: project.status,
+      priority: project.priority || 'medium',
       progress: project.progress,
+      start_date: project.start_date || '',
       expected_delivery: project.expected_delivery || '',
-      notes: project.notes || ''
+      notes: project.notes || '',
+      tags: project.tags || []
     });
     setIsDialogOpen(true);
   };
@@ -137,9 +210,12 @@ export default function ClientProjectsManager() {
       client_id: '',
       description: '',
       status: 'pending',
+      priority: 'medium',
       progress: 0,
+      start_date: '',
       expected_delivery: '',
-      notes: ''
+      notes: '',
+      tags: []
     });
   };
 
@@ -156,11 +232,7 @@ export default function ClientProjectsManager() {
     try {
       await clientService.uploadProjectFile(projectId, file);
       toast.success('File uploaded successfully');
-      fetchProjects();
-      // Refresh selected project
-      const updatedProjects = await clientService.getAllClientProjects();
-      const updatedProject = updatedProjects.find(p => p.id === projectId);
-      setSelectedProject(updatedProject);
+      refreshSelectedProject();
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Failed to upload file');
@@ -177,14 +249,125 @@ export default function ClientProjectsManager() {
     try {
       await clientService.deleteProjectFile(projectId, fileId);
       toast.success('File deleted successfully');
-      fetchProjects();
-      // Refresh selected project
-      const updatedProjects = await clientService.getAllClientProjects();
-      const updatedProject = updatedProjects.find(p => p.id === projectId);
-      setSelectedProject(updatedProject);
+      refreshSelectedProject();
     } catch (error) {
       console.error('Error deleting file:', error);
       toast.error('Failed to delete file');
+    }
+  };
+
+  // Milestone handlers
+  const handleAddMilestone = async (milestoneData) => {
+    try {
+      await clientService.addMilestone(selectedProject.id, milestoneData);
+      toast.success('Milestone added successfully');
+      refreshSelectedProject();
+      setMilestoneDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error adding milestone:', error);
+      toast.error('Failed to add milestone');
+    }
+  };
+
+  const handleUpdateMilestone = async (milestoneId, milestoneData) => {
+    try {
+      await clientService.updateMilestone(selectedProject.id, milestoneId, milestoneData);
+      toast.success('Milestone updated successfully');
+      refreshSelectedProject();
+      setMilestoneDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error updating milestone:', error);
+      toast.error('Failed to update milestone');
+    }
+  };
+
+  const handleDeleteMilestone = async (milestoneId) => {
+    if (!window.confirm('Are you sure you want to delete this milestone?')) return;
+    
+    try {
+      await clientService.deleteMilestone(selectedProject.id, milestoneId);
+      toast.success('Milestone deleted successfully');
+      refreshSelectedProject();
+    } catch (error) {
+      console.error('Error deleting milestone:', error);
+      toast.error('Failed to delete milestone');
+    }
+  };
+
+  // Task handlers
+  const handleAddTask = async (taskData) => {
+    try {
+      await clientService.addTask(selectedProject.id, taskData);
+      toast.success('Task added successfully');
+      refreshSelectedProject();
+      setTaskDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error adding task:', error);
+      toast.error('Failed to add task');
+    }
+  };
+
+  const handleUpdateTask = async (taskId, taskData) => {
+    try {
+      await clientService.updateTask(selectedProject.id, taskId, taskData);
+      toast.success('Task updated successfully');
+      refreshSelectedProject();
+      setTaskDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error updating task:', error);
+      toast.error('Failed to update task');
+    }
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    
+    try {
+      await clientService.deleteTask(selectedProject.id, taskId);
+      toast.success('Task deleted successfully');
+      refreshSelectedProject();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      toast.error('Failed to delete task');
+    }
+  };
+
+  // Team handlers
+  const handleAddTeamMember = async (memberData) => {
+    try {
+      await clientService.addTeamMember(selectedProject.id, memberData);
+      toast.success('Team member added successfully');
+      refreshSelectedProject();
+      setTeamDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error adding team member:', error);
+      toast.error('Failed to add team member');
+    }
+  };
+
+  const handleRemoveTeamMember = async (adminId) => {
+    if (!window.confirm('Are you sure you want to remove this team member?')) return;
+    
+    try {
+      await clientService.removeTeamMember(selectedProject.id, adminId);
+      toast.success('Team member removed successfully');
+      refreshSelectedProject();
+    } catch (error) {
+      console.error('Error removing team member:', error);
+      toast.error('Failed to remove team member');
+    }
+  };
+
+  // Budget handler
+  const handleUpdateBudget = async (budgetData) => {
+    try {
+      await clientService.updateBudget(selectedProject.id, budgetData);
+      toast.success('Budget updated successfully');
+      refreshSelectedProject();
+      setBudgetDialog({ open: false, data: null });
+    } catch (error) {
+      console.error('Error updating budget:', error);
+      toast.error('Failed to update budget');
     }
   };
 
@@ -238,189 +421,522 @@ export default function ClientProjectsManager() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Projects List */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-4 border-b">
-            <h2 className="font-semibold text-gray-900">All Projects</h2>
-          </div>
-          <div className="divide-y max-h-[600px] overflow-y-auto">
-            {projects.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
-                No projects found. Create your first project to get started.
-              </div>
-            ) : (
-              projects.map((project) => (
-                <div
-                  key={project.id}
-                  className={`p-4 cursor-pointer hover:bg-gray-50 transition-colors ${
-                    selectedProject?.id === project.id ? 'bg-blue-50' : ''
-                  }`}
-                  onClick={() => setSelectedProject(project)}
-                  data-testid={`project-item-${project.id}`}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{project.name}</h3>
-                      <p className="text-sm text-gray-600">{getClientName(project.client_id)}</p>
-                    </div>
-                    <Badge className={getStatusColor(project.status)}>
-                      {getStatusLabel(project.status)}
-                    </Badge>
-                  </div>
-                  <div className="mt-2">
-                    <div className="flex items-center justify-between text-sm mb-1">
-                      <span className="text-gray-600">Progress</span>
-                      <span className="font-medium">{project.progress}%</span>
-                    </div>
-                    <Progress value={project.progress} className="h-1.5" />
-                  </div>
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow border">
+            <div className="p-4 border-b">
+              <h2 className="font-semibold text-gray-900">All Projects</h2>
+            </div>
+            <div className="divide-y max-h-[calc(100vh-250px)] overflow-y-auto">
+              {projects.length === 0 ? (
+                <div className="p-8 text-center text-gray-500">
+                  No projects found.
                 </div>
-              ))
-            )}
+              ) : (
+                projects.map((project) => (
+                  <div
+                    key={project.id}
+                    className={`p-4 cursor-pointer hover:bg-gray-50 transition-colors ${
+                      selectedProject?.id === project.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''
+                    }`}
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setActiveTab('overview');
+                    }}
+                    data-testid={`project-item-${project.id}`}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900">{project.name}</h3>
+                        <p className="text-sm text-gray-600">{getClientName(project.client_id)}</p>
+                      </div>
+                      <Badge className={getStatusColor(project.status)}>
+                        {getStatusLabel(project.status)}
+                      </Badge>
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span className="text-gray-600">Progress</span>
+                        <span className="font-medium">{project.progress}%</span>
+                      </div>
+                      <Progress value={project.progress} className="h-1.5" />
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
 
         {/* Project Details */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900">
-              {selectedProject ? 'Project Details' : 'Select a Project'}
-            </h2>
-            {selectedProject && (
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleEdit(selectedProject)}
-                  data-testid="edit-selected-project-btn"
-                >
-                  <Edit className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDelete(selectedProject.id)}
-                  className="text-red-600 hover:text-red-700"
-                  data-testid="delete-selected-project-btn"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            )}
-          </div>
-          <div className="p-4 max-h-[600px] overflow-y-auto">
-            {selectedProject ? (
-              <div className="space-y-4">
+        <div className="lg:col-span-3">
+          {selectedProject ? (
+            <div className="bg-white rounded-lg shadow border">
+              <div className="p-4 border-b flex items-center justify-between">
                 <div>
-                  <Label className="text-gray-600">Client</Label>
-                  <p className="font-medium">{getClientName(selectedProject.client_id)}</p>
+                  <h2 className="font-semibold text-gray-900 text-xl">{selectedProject.name}</h2>
+                  <p className="text-sm text-gray-600">{getClientName(selectedProject.client_id)}</p>
                 </div>
-                {selectedProject.description && (
-                  <div>
-                    <Label className="text-gray-600">Description</Label>
-                    <p className="text-gray-900">{selectedProject.description}</p>
-                  </div>
-                )}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-gray-600">Status</Label>
-                    <Badge className={getStatusColor(selectedProject.status)}>
-                      {getStatusLabel(selectedProject.status)}
-                    </Badge>
-                  </div>
-                  <div>
-                    <Label className="text-gray-600">Progress</Label>
-                    <p className="font-medium">{selectedProject.progress}%</p>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEdit(selectedProject)}
+                    data-testid="edit-selected-project-btn"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDelete(selectedProject.id)}
+                    className="text-red-600 hover:text-red-700"
+                    data-testid="delete-selected-project-btn"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 </div>
-                {selectedProject.expected_delivery && (
-                  <div>
-                    <Label className="text-gray-600">Expected Delivery</Label>
-                    <p className="font-medium">
-                      {new Date(selectedProject.expected_delivery).toLocaleDateString()}
-                    </p>
-                  </div>
-                )}
-                {selectedProject.notes && (
-                  <div>
-                    <Label className="text-gray-600">Notes</Label>
-                    <div className="bg-gray-50 p-3 rounded whitespace-pre-wrap text-sm">
-                      {selectedProject.notes}
+              </div>
+
+              <div className="p-4">
+                <Tabs value={activeTab} onValueChange={setActiveTab}>
+                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-6">
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="milestones">
+                      <Target className="w-4 h-4 mr-1" />
+                      Milestones
+                    </TabsTrigger>
+                    <TabsTrigger value="tasks">
+                      <ListChecks className="w-4 h-4 mr-1" />
+                      Tasks
+                    </TabsTrigger>
+                    <TabsTrigger value="team">
+                      <Users className="w-4 h-4 mr-1" />
+                      Team
+                    </TabsTrigger>
+                    <TabsTrigger value="budget">
+                      <DollarSign className="w-4 h-4 mr-1" />
+                      Budget
+                    </TabsTrigger>
+                    <TabsTrigger value="files">
+                      <FileText className="w-4 h-4 mr-1" />
+                      Files
+                    </TabsTrigger>
+                    <TabsTrigger value="activity">
+                      <Activity className="w-4 h-4 mr-1" />
+                      Activity
+                    </TabsTrigger>
+                    <TabsTrigger value="chat">
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      Chat
+                    </TabsTrigger>
+                  </TabsList>
+
+                  {/* Overview Tab */}
+                  <TabsContent value="overview" className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-gray-600">Status</Label>
+                        <Badge className={getStatusColor(selectedProject.status)}>
+                          {getStatusLabel(selectedProject.status)}
+                        </Badge>
+                      </div>
+                      <div>
+                        <Label className="text-gray-600">Progress</Label>
+                        <p className="font-medium">{selectedProject.progress}%</p>
+                        <Progress value={selectedProject.progress} className="h-2 mt-1" />
+                      </div>
                     </div>
-                  </div>
-                )}
-                
-                {/* Files Section */}
-                <div className="border-t pt-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <Label className="text-gray-900">Project Files</Label>
-                    <Button
-                      size="sm"
-                      onClick={() => document.getElementById('file-upload').click()}
-                      disabled={uploadingFile}
-                      data-testid="upload-file-btn"
-                    >
-                      <Upload className="w-4 h-4 mr-2" />
-                      {uploadingFile ? 'Uploading...' : 'Upload File'}
-                    </Button>
-                    <input
-                      id="file-upload"
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => {
-                        if (e.target.files[0]) {
-                          handleFileUpload(selectedProject.id, e.target.files[0]);
-                          e.target.value = '';
-                        }
-                      }}
-                    />
-                  </div>
-                  {selectedProject.files && selectedProject.files.length > 0 ? (
-                    <div className="space-y-2">
-                      {selectedProject.files.map((file) => (
-                        <div
-                          key={file.id}
-                          className="flex items-center justify-between bg-gray-50 p-3 rounded"
-                          data-testid={`file-item-${file.id}`}
-                        >
-                          <div className="flex items-center gap-3 flex-1">
-                            <FileText className="w-5 h-5 text-blue-600" />
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">{file.filename}</p>
-                              <p className="text-xs text-gray-500">
-                                {new Date(file.uploaded_at).toLocaleDateString()}
-                              </p>
+                    {selectedProject.description && (
+                      <div>
+                        <Label className="text-gray-600">Description</Label>
+                        <p className="text-gray-900">{selectedProject.description}</p>
+                      </div>
+                    )}
+                    {selectedProject.expected_delivery && (
+                      <div>
+                        <Label className="text-gray-600">Expected Delivery</Label>
+                        <p className="font-medium">
+                          {new Date(selectedProject.expected_delivery).toLocaleDateString()}
+                        </p>
+                      </div>
+                    )}
+                    {selectedProject.notes && (
+                      <div>
+                        <Label className="text-gray-600">Notes</Label>
+                        <div className="bg-gray-50 p-3 rounded whitespace-pre-wrap text-sm">
+                          {selectedProject.notes}
+                        </div>
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  {/* Milestones Tab */}
+                  <TabsContent value="milestones" className="space-y-4">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        size="sm"
+                        onClick={() => setMilestoneDialog({ open: true, data: null })}
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Milestone
+                      </Button>
+                    </div>
+                    {selectedProject.milestones && selectedProject.milestones.length > 0 ? (
+                      selectedProject.milestones.map((milestone) => (
+                        <div key={milestone.id} className="bg-gray-50 border rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900">{milestone.title}</h4>
+                              {milestone.description && (
+                                <p className="text-sm text-gray-600 mt-1">{milestone.description}</p>
+                              )}
                             </div>
+                            <div className="flex items-center gap-2">
+                              <Badge className={getStatusColor(milestone.status)}>
+                                {milestone.status}
+                              </Badge>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setMilestoneDialog({ open: true, data: milestone })}
+                              >
+                                <Edit className="w-3 h-3" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteMilestone(milestone.id)}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            </div>
+                          </div>
+                          {milestone.due_date && (
+                            <p className="text-xs text-gray-500 flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              Due: {new Date(milestone.due_date).toLocaleDateString()}
+                            </p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No milestones yet</p>
+                    )}
+                  </TabsContent>
+
+                  {/* Tasks Tab */}
+                  <TabsContent value="tasks" className="space-y-4">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        size="sm"
+                        onClick={() => setTaskDialog({ open: true, data: null })}
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Task
+                      </Button>
+                    </div>
+                    {selectedProject.tasks && selectedProject.tasks.length > 0 ? (
+                      selectedProject.tasks.map((task) => (
+                        <div key={task.id} className="bg-gray-50 border rounded-lg p-4">
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-start gap-3 flex-1">
+                              <CheckCircle2 
+                                className={`w-5 h-5 mt-0.5 ${
+                                  task.status === 'completed' ? 'text-green-600' : 'text-gray-400'
+                                }`} 
+                              />
+                              <div className="flex-1">
+                                <h4 className={`font-semibold ${
+                                  task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-900'
+                                }`}>
+                                  {task.title}
+                                </h4>
+                                {task.description && (
+                                  <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                                )}
+                                {task.due_date && (
+                                  <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                    <Calendar className="w-3 h-3" />
+                                    Due: {new Date(task.due_date).toLocaleDateString()}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Badge className={getStatusColor(task.status)}>
+                                {task.status}
+                              </Badge>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setTaskDialog({ open: true, data: task })}
+                              >
+                                <Edit className="w-3 h-3" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteTask(task.id)}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No tasks yet</p>
+                    )}
+                  </TabsContent>
+
+                  {/* Team Tab */}
+                  <TabsContent value="team" className="space-y-4">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        size="sm"
+                        onClick={() => setTeamDialog({ open: true, data: null })}
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Team Member
+                      </Button>
+                    </div>
+                    {selectedProject.team_members && selectedProject.team_members.length > 0 ? (
+                      selectedProject.team_members.map((member, idx) => (
+                        <div key={idx} className="bg-gray-50 border rounded-lg p-4 flex items-center gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-gray-900">{member.admin_name}</h4>
+                            {member.role && (
+                              <p className="text-sm text-gray-600">{member.role}</p>
+                            )}
+                            <p className="text-xs text-gray-500 mt-1">
+                              Added {new Date(member.added_at).toLocaleDateString()}
+                            </p>
                           </div>
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleDeleteFile(selectedProject.id, file.id)}
-                            className="text-red-600 hover:text-red-700"
-                            data-testid={`delete-file-btn-${file.id}`}
+                            onClick={() => handleRemoveTeamMember(member.admin_id)}
+                            className="text-red-600"
                           >
-                            <X className="w-4 h-4" />
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
-                      ))}
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No team members yet</p>
+                    )}
+                  </TabsContent>
+
+                  {/* Budget Tab */}
+                  <TabsContent value="budget">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        size="sm"
+                        onClick={() => setBudgetDialog({ open: true, data: selectedProject.budget })}
+                      >
+                        <Edit className="w-4 h-4 mr-2" />
+                        Update Budget
+                      </Button>
                     </div>
-                  ) : (
-                    <p className="text-sm text-gray-500 text-center py-4">No files uploaded yet</p>
-                  )}
-                </div>
+                    {selectedProject.budget ? (
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="bg-blue-50 border rounded-lg p-4">
+                            <p className="text-sm text-gray-600 mb-1">Total</p>
+                            <p className="text-2xl font-bold text-blue-600">
+                              {selectedProject.budget.currency} {selectedProject.budget.total_amount.toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="bg-green-50 border rounded-lg p-4">
+                            <p className="text-sm text-gray-600 mb-1">Paid</p>
+                            <p className="text-2xl font-bold text-green-600">
+                              {selectedProject.budget.currency} {selectedProject.budget.paid_amount.toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="bg-orange-50 border rounded-lg p-4">
+                            <p className="text-sm text-gray-600 mb-1">Pending</p>
+                            <p className="text-2xl font-bold text-orange-600">
+                              {selectedProject.budget.currency} {selectedProject.budget.pending_amount.toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                        {selectedProject.budget.payment_terms && (
+                          <div className="bg-gray-50 border rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-900 mb-2">Payment Terms</h4>
+                            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                              {selectedProject.budget.payment_terms}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500 mb-4">No budget information set</p>
+                        <Button onClick={() => setBudgetDialog({ open: true, data: null })}>
+                          Set Budget
+                        </Button>
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  {/* Files Tab */}
+                  <TabsContent value="files" className="space-y-4">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        size="sm"
+                        onClick={() => document.getElementById('file-upload').click()}
+                        disabled={uploadingFile}
+                        data-testid="upload-file-btn"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        {uploadingFile ? 'Uploading...' : 'Upload File'}
+                      </Button>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files[0]) {
+                            handleFileUpload(selectedProject.id, e.target.files[0]);
+                            e.target.value = '';
+                          }
+                        }}
+                      />
+                    </div>
+                    {selectedProject.files && selectedProject.files.length > 0 ? (
+                      <div className="space-y-2">
+                        {selectedProject.files.map((file) => (
+                          <div
+                            key={file.id}
+                            className="flex items-center justify-between bg-gray-50 border p-3 rounded"
+                            data-testid={`file-item-${file.id}`}
+                          >
+                            <div className="flex items-center gap-3 flex-1">
+                              <FileText className="w-5 h-5 text-blue-600" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">{file.filename}</p>
+                                <p className="text-xs text-gray-500">
+                                  {new Date(file.uploaded_at).toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteFile(selectedProject.id, file.id)}
+                              className="text-red-600"
+                              data-testid={`delete-file-btn-${file.id}`}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No files uploaded yet</p>
+                    )}
+                  </TabsContent>
+
+                  {/* Activity Tab */}
+                  <TabsContent value="activity" className="space-y-3 max-h-[500px] overflow-y-auto">
+                    {selectedProject.activity_log && selectedProject.activity_log.length > 0 ? (
+                      selectedProject.activity_log.slice().reverse().map((activity) => (
+                        <div key={activity.id} className="bg-white border-l-4 border-purple-500 p-4 rounded-r-lg">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900">{activity.description}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                by {activity.user_name} • {new Date(activity.timestamp).toLocaleString()}
+                              </p>
+                            </div>
+                            <Badge variant="outline">{activity.action}</Badge>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No activity yet</p>
+                    )}
+                  </TabsContent>
+
+                  {/* Chat Tab */}
+                  <TabsContent value="chat">
+                    <div className="space-y-4">
+                      {/* Chat Messages */}
+                      <div className="bg-gray-50 border rounded-lg p-4 h-[400px] overflow-y-auto">
+                        {chatMessages.length > 0 ? (
+                          <div className="space-y-4">
+                            {chatMessages.map((msg) => (
+                              <div
+                                key={msg.id}
+                                className={`flex ${msg.sender_type === 'admin' ? 'justify-end' : 'justify-start'}`}
+                              >
+                                <div
+                                  className={`max-w-[70%] rounded-lg p-3 ${
+                                    msg.sender_type === 'admin'
+                                      ? 'bg-blue-600 text-white'
+                                      : 'bg-white border text-gray-900'
+                                  }`}
+                                >
+                                  <p className="text-xs font-semibold mb-1 opacity-80">
+                                    {msg.sender_name}
+                                  </p>
+                                  <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                                  <p className="text-xs mt-1 opacity-70">
+                                    {new Date(msg.created_at).toLocaleTimeString()}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                            <div ref={chatEndRef} />
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <p className="text-gray-500">No messages yet</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Chat Input */}
+                      <form onSubmit={handleSendMessage} className="flex gap-2">
+                        <Textarea
+                          value={chatMessage}
+                          onChange={(e) => setChatMessage(e.target.value)}
+                          placeholder="Type your message..."
+                          className="flex-1"
+                          rows={2}
+                          disabled={sendingMessage}
+                        />
+                        <Button
+                          type="submit"
+                          disabled={sendingMessage || !chatMessage.trim()}
+                        >
+                          <Send className="w-4 h-4" />
+                        </Button>
+                      </form>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </div>
-            ) : (
-              <div className="text-center py-12 text-gray-500">
-                <FileText className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p>Select a project to view details</p>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow border">
+              <div className="py-16 text-center">
+                <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-xl text-gray-500">Select a project to view details</p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Create/Edit Dialog */}
+      {/* Create/Edit Project Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col" data-testid="project-dialog">
           <DialogHeader>
@@ -543,6 +1059,460 @@ export default function ClientProjectsManager() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Milestone Dialog */}
+      <MilestoneDialog
+        open={milestoneDialog.open}
+        data={milestoneDialog.data}
+        onClose={() => setMilestoneDialog({ open: false, data: null })}
+        onSave={milestoneDialog.data ? handleUpdateMilestone : handleAddMilestone}
+      />
+
+      {/* Task Dialog */}
+      <TaskDialog
+        open={taskDialog.open}
+        data={taskDialog.data}
+        milestones={selectedProject?.milestones || []}
+        onClose={() => setTaskDialog({ open: false, data: null })}
+        onSave={taskDialog.data ? handleUpdateTask : handleAddTask}
+      />
+
+      {/* Team Dialog */}
+      <TeamDialog
+        open={teamDialog.open}
+        data={teamDialog.data}
+        onClose={() => setTeamDialog({ open: false, data: null })}
+        onSave={handleAddTeamMember}
+      />
+
+      {/* Budget Dialog */}
+      <BudgetDialog
+        open={budgetDialog.open}
+        data={budgetDialog.data}
+        onClose={() => setBudgetDialog({ open: false, data: null })}
+        onSave={handleUpdateBudget}
+      />
     </div>
+  );
+}
+
+// Milestone Dialog Component
+function MilestoneDialog({ open, data, onClose, onSave }) {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    due_date: '',
+    status: 'pending',
+    order: 0
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        title: data.title || '',
+        description: data.description || '',
+        due_date: data.due_date || '',
+        status: data.status || 'pending',
+        order: data.order || 0
+      });
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        due_date: '',
+        status: 'pending',
+        order: 0
+      });
+    }
+  }, [data]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (data) {
+      onSave(data.id, formData);
+    } else {
+      onSave(formData);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{data ? 'Edit Milestone' : 'Add Milestone'}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="milestone-title">Title *</Label>
+              <Input
+                id="milestone-title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="milestone-description">Description</Label>
+              <Textarea
+                id="milestone-description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div>
+              <Label htmlFor="milestone-due-date">Due Date</Label>
+              <Input
+                id="milestone-due-date"
+                type="date"
+                value={formData.due_date}
+                onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="milestone-status">Status</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value) => setFormData({ ...formData, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="in_progress">In Progress</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              {data ? 'Update' : 'Add'} Milestone
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// Task Dialog Component
+function TaskDialog({ open, data, milestones, onClose, onSave }) {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    status: 'todo',
+    priority: 'medium',
+    due_date: '',
+    milestone_id: '',
+    assigned_to: ''
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        title: data.title || '',
+        description: data.description || '',
+        status: data.status || 'todo',
+        priority: data.priority || 'medium',
+        due_date: data.due_date || '',
+        milestone_id: data.milestone_id || '',
+        assigned_to: data.assigned_to || ''
+      });
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        status: 'todo',
+        priority: 'medium',
+        due_date: '',
+        milestone_id: '',
+        assigned_to: ''
+      });
+    }
+  }, [data]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (data) {
+      onSave(data.id, formData);
+    } else {
+      onSave(formData);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{data ? 'Edit Task' : 'Add Task'}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="task-title">Title *</Label>
+              <Input
+                id="task-title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="task-description">Description</Label>
+              <Textarea
+                id="task-description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="task-status">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => setFormData({ ...formData, status: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="in_progress">In Progress</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="task-priority">Priority</Label>
+                <Select
+                  value={formData.priority}
+                  onValueChange={(value) => setFormData({ ...formData, priority: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="task-due-date">Due Date</Label>
+              <Input
+                id="task-due-date"
+                type="date"
+                value={formData.due_date}
+                onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
+              />
+            </div>
+            {milestones.length > 0 && (
+              <div>
+                <Label htmlFor="task-milestone">Milestone (Optional)</Label>
+                <Select
+                  value={formData.milestone_id}
+                  onValueChange={(value) => setFormData({ ...formData, milestone_id: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select milestone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    {milestones.map((milestone) => (
+                      <SelectItem key={milestone.id} value={milestone.id}>
+                        {milestone.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              {data ? 'Update' : 'Add'} Task
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// Team Dialog Component
+function TeamDialog({ open, data, onClose, onSave }) {
+  const [formData, setFormData] = useState({
+    admin_id: '',
+    admin_name: '',
+    role: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Team Member</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="admin-id">Admin ID *</Label>
+              <Input
+                id="admin-id"
+                value={formData.admin_id}
+                onChange={(e) => setFormData({ ...formData, admin_id: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="admin-name">Admin Name *</Label>
+              <Input
+                id="admin-name"
+                value={formData.admin_name}
+                onChange={(e) => setFormData({ ...formData, admin_name: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                placeholder="e.g., Project Manager, Developer"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">Add Team Member</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// Budget Dialog Component
+function BudgetDialog({ open, data, onClose, onSave }) {
+  const [formData, setFormData] = useState({
+    total_amount: 0,
+    currency: 'USD',
+    paid_amount: 0,
+    payment_terms: ''
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        total_amount: data.total_amount || 0,
+        currency: data.currency || 'USD',
+        paid_amount: data.paid_amount || 0,
+        payment_terms: data.payment_terms || ''
+      });
+    } else {
+      setFormData({
+        total_amount: 0,
+        currency: 'USD',
+        paid_amount: 0,
+        payment_terms: ''
+      });
+    }
+  }, [data]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{data ? 'Update Budget' : 'Set Budget'}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="total-amount">Total Amount *</Label>
+                <Input
+                  id="total-amount"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={formData.total_amount}
+                  onChange={(e) => setFormData({ ...formData, total_amount: parseFloat(e.target.value) || 0 })}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="currency">Currency</Label>
+                <Select
+                  value={formData.currency}
+                  onValueChange={(value) => setFormData({ ...formData, currency: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">USD</SelectItem>
+                    <SelectItem value="EUR">EUR</SelectItem>
+                    <SelectItem value="GBP">GBP</SelectItem>
+                    <SelectItem value="INR">INR</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="paid-amount">Paid Amount</Label>
+              <Input
+                id="paid-amount"
+                type="number"
+                min="0"
+                step="0.01"
+                value={formData.paid_amount}
+                onChange={(e) => setFormData({ ...formData, paid_amount: parseFloat(e.target.value) || 0 })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="payment-terms">Payment Terms</Label>
+              <Textarea
+                id="payment-terms"
+                value={formData.payment_terms}
+                onChange={(e) => setFormData({ ...formData, payment_terms: e.target.value })}
+                rows={4}
+                placeholder="Describe payment terms..."
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">{data ? 'Update' : 'Set'} Budget</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
