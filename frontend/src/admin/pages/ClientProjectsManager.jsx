@@ -21,6 +21,7 @@ import {
 import { Badge } from '../../components/ui/badge';
 import { Progress } from '../../components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Checkbox } from '../../components/ui/checkbox';
 import { toast } from 'sonner';
 import { 
   Plus, Edit, Trash2, Upload, Download, FileText, X, Target, ListChecks, 
