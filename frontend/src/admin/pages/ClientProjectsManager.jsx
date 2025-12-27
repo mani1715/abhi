@@ -422,7 +422,7 @@ export default function ClientProjectsManager() {
 
       {/* Create/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" data-testid="project-dialog">
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col" data-testid="project-dialog">
           <DialogHeader>
             <DialogTitle>
               {editingProject ? 'Edit Project' : 'Create New Project'}
@@ -431,8 +431,8 @@ export default function ClientProjectsManager() {
               {editingProject ? 'Update project details' : 'Assign a new project to a client'}
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4 py-4">
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+            <div className="space-y-4 py-4 overflow-y-auto pr-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Project Name *</Label>
                 <Input
