@@ -25,6 +25,7 @@ def testimonial_helper(testimonial) -> dict:
         "status": testimonial["status"],
         "source": testimonial.get("source", "admin_created"),
         "verified": testimonial.get("verified", False),
+        "client_id": testimonial.get("client_id"),
         "created_at": testimonial["created_at"],
         "updated_at": testimonial["updated_at"]
     }
