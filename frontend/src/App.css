@@ -974,6 +974,8 @@ a {
   align-items: center;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(139, 92, 246, 0.2);
+  position: relative;
+  z-index: 15;
 }
 
 .footer-copyright {
