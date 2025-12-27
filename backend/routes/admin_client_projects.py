@@ -11,7 +11,7 @@ from database import client_projects_collection, clients_collection, admins_coll
 from auth.admin_auth import get_current_admin
 from models.client_project import (
     ClientProject, ProjectFile, ProjectMilestone, ProjectTask,
-    ProjectComment, ProjectActivity, TeamMember, Budget
+    ProjectComment, ProjectActivity, TeamMember, Budget, ChatMessage
 )
 from datetime import datetime
 import os
