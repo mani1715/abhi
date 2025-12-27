@@ -53,6 +53,13 @@ export default function ClientDashboard() {
   useEffect(() => {
     if (selectedProject && activeTab === 'chat') {
       fetchChatMessages();
+      
+      // Auto-refresh chat messages every 10 seconds when on chat tab
+      const chatRefreshInterval = setInterval(() => {
+        fetchChatMessages();
+      }, 10000); // 10 seconds
+      
+      return () => clearInterval(chatRefreshInterval);
     }
   }, [selectedProject, activeTab]);
 
