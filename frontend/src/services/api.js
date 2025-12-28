@@ -10,22 +10,33 @@ import axios from 'axios';
 /**
  * CRITICAL FIX FOR MIXED CONTENT ERROR
  * 
- * DO NOT set baseURL here! Instead, we'll use relative URLs (/api/...)
- * which automatically inherit the page's protocol (HTTPS in production)
- * 
- * This prevents Mixed Content errors where HTTPS pages try to make HTTP requests
+ * Solution: Use relative URLs that automatically inherit the page's protocol
+ * - When page is on HTTPS, API calls use HTTPS
+ * - When page is on HTTP (local dev), API calls use HTTP
+ * - Request interceptor adds additional protection by converting any HTTP to HTTPS when needed
  */
 
-// Create axios instance WITHOUT baseURL - we'll use relative URLs
+// Determine the correct protocol based on the current page
+const getBaseURL = () => {
+  // For Kubernetes/production environments, use relative URL
+  // This ensures the protocol matches the page (HTTPS in production)
+  const baseURL = '/api';
+  
+  // Log the configuration for debugging
+  const protocol = window.location.protocol;
+  console.log(`[API Config] Page protocol: ${protocol}, baseURL: ${baseURL}`);
+  
+  return baseURL;
+};
+
+// Create axios instance with relative baseURL
 const api = axios.create({
-  baseURL: '/api',  // Always use relative URL - browser uses current protocol
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 15000, // 15 second default timeout
 });
-
-console.log('[API Config] Using baseURL: /api (relative - inherits page protocol)');
 
 let isRefreshing = false;
 let failedQueue = [];
