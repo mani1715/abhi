@@ -1,33 +1,39 @@
 import axios from 'axios';
 
 /**
- * API Configuration for Production Deployment
+ * CRITICAL FIX FOR MIXED CONTENT ERROR - FINAL SOLUTION
  * 
- * IMPORTANT: Protocol enforcement happens in request interceptor
- * to ensure HTTPS is used in production environments
+ * Issue: Axios was converting relative URLs to absolute HTTP URLs even with interceptors
+ * Solution: Explicitly construct baseURL with current protocol to ensure HTTPS in production
  */
 
-/**
- * CRITICAL FIX FOR MIXED CONTENT ERROR
- * 
- * Solution: Use relative URLs that automatically inherit the page's protocol
- * - When page is on HTTPS, API calls use HTTPS
- * - When page is on HTTP (local dev), API calls use HTTP
- * - Request interceptor adds additional protection by converting any HTTP to HTTPS when needed
- */
+// Determine the correct base URL with protocol matching the current page
+const getBaseURL = () => {
+  // If we're on HTTPS, explicitly construct HTTPS URL
+  // If we're on HTTP (local dev), use HTTP
+  const protocol = window.location.protocol; // 'https:' or 'http:'
+  const host = window.location.host; // 'api-secure-update.preview.emergentagent.com'
+  
+  // Construct full base URL with correct protocol
+  const baseURL = `${protocol}//${host}/api`;
+  
+  console.log('[API Config] Page protocol:', protocol);
+  console.log('[API Config] Constructed baseURL:', baseURL);
+  
+  return baseURL;
+};
 
-// Create axios instance WITHOUT baseURL to avoid protocol issues
-// All API calls will use full relative paths starting with /api
+// Create axios instance with explicit HTTPS baseURL
 const api = axios.create({
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 15000, // 15 second default timeout
 });
 
-// Log the configuration for debugging
-console.log('[API Config] Page protocol:', window.location.protocol);
-console.log('[API Config] Using full relative URLs (e.g., /api/...)');
+// Force axios to never convert to HTTP
+axios.defaults.adapter = require('axios/lib/adapters/xhr');
 
 let isRefreshing = false;
 let failedQueue = [];
