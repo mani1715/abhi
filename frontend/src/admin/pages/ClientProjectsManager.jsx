@@ -1358,7 +1358,7 @@ function TaskDialog({ open, data, milestones, onClose, onSave }) {
     status: 'todo',
     priority: 'medium',
     due_date: '',
-    milestone_id: '',
+    milestone_id: 'none',
     assigned_to: ''
   });
 
@@ -1370,7 +1370,7 @@ function TaskDialog({ open, data, milestones, onClose, onSave }) {
         status: data.status || 'todo',
         priority: data.priority || 'medium',
         due_date: data.due_date || '',
-        milestone_id: data.milestone_id || '',
+        milestone_id: data.milestone_id || 'none',
         assigned_to: data.assigned_to || ''
       });
     } else {
@@ -1380,7 +1380,7 @@ function TaskDialog({ open, data, milestones, onClose, onSave }) {
         status: 'todo',
         priority: 'medium',
         due_date: '',
-        milestone_id: '',
+        milestone_id: 'none',
         assigned_to: ''
       });
     }
@@ -1388,10 +1388,15 @@ function TaskDialog({ open, data, milestones, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Convert 'none' back to empty string/null for milestone_id
+    const submitData = {
+      ...formData,
+      milestone_id: formData.milestone_id === 'none' ? null : formData.milestone_id
+    };
     if (data) {
-      onSave(data.id, formData);
+      onSave(data.id, submitData);
     } else {
-      onSave(formData);
+      onSave(submitData);
     }
   };
 
