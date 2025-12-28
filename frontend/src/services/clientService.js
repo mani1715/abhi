@@ -125,33 +125,33 @@ const clientService = {
   // ========== COMMENTS ==========
   // Add comment to project
   addComment: async (projectId, commentData) => {
-    const response = await api.post(`/admin/client-projects/${projectId}/comments/`, commentData);
+    const response = await api.post(`/admin/client-projects/${projectId}/comments`, commentData);
     return response.data;
   },
 
   // Delete comment
   deleteComment: async (projectId, commentId) => {
-    const response = await api.delete(`/admin/client-projects/${projectId}/comments/${commentId}/`);
+    const response = await api.delete(`/admin/client-projects/${projectId}/comments/${commentId}`);
     return response.data;
   },
 
   // ========== TEAM MEMBERS ==========
   // Add team member to project
   addTeamMember: async (projectId, memberData) => {
-    const response = await api.post(`/admin/client-projects/${projectId}/team/`, memberData);
+    const response = await api.post(`/admin/client-projects/${projectId}/team`, memberData);
     return response.data;
   },
 
   // Remove team member from project
   removeTeamMember: async (projectId, adminId) => {
-    const response = await api.delete(`/admin/client-projects/${projectId}/team/${adminId}/`);
+    const response = await api.delete(`/admin/client-projects/${projectId}/team/${adminId}`);
     return response.data;
   },
 
   // ========== BUDGET ==========
   // Update project budget
   updateBudget: async (projectId, budgetData) => {
-    const response = await api.put(`/admin/client-projects/${projectId}/budget/`, budgetData);
+    const response = await api.put(`/admin/client-projects/${projectId}/budget`, budgetData);
     return response.data;
   },
 
@@ -170,7 +170,7 @@ const clientService = {
 
   // Get unread message count (Admin)
   getUnreadMessageCount: async (projectId) => {
-    const response = await api.get(`/admin/client-projects/${projectId}/unread-count/`);
+    const response = await api.get(`/admin/client-projects/${projectId}/unread-count`);
     return response.data;
   },
 
@@ -178,7 +178,7 @@ const clientService = {
   // Send chat message to admin (Client)
   sendClientChatMessage: async (projectId, message, token) => {
     const response = await api.post(
-      `/client/projects/${projectId}/chat/`,
+      `/client/projects/${projectId}/chat`,
       { message },
       {
         headers: {
@@ -191,7 +191,7 @@ const clientService = {
 
   // Get chat messages (Client)
   getClientChatMessages: async (projectId, token) => {
-    const response = await api.get(`/client/projects/${projectId}/chat/`, {
+    const response = await api.get(`/client/projects/${projectId}/chat`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -202,7 +202,7 @@ const clientService = {
   // Add comment (Client)
   addClientComment: async (projectId, message, token) => {
     const response = await api.post(
-      `/client/projects/${projectId}/comments/`,
+      `/client/projects/${projectId}/comments`,
       { message },
       {
         headers: {
@@ -215,7 +215,7 @@ const clientService = {
 
   // Get single project (Admin)
   getProject: async (projectId) => {
-    const response = await api.get(`/admin/client-projects/${projectId}/`);
+    const response = await api.get(`/admin/client-projects/${projectId}`);
     return response.data;
   }
 };
