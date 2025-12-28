@@ -58,17 +58,9 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Add token to requests and ensure HTTPS in production
+// Add token to requests - protocol handling is automatic with relative URLs
 api.interceptors.request.use(
   (config) => {
-    // Double-check: If we're on HTTPS and somehow baseURL is HTTP, fix it
-    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
-      if (config.baseURL && config.baseURL.startsWith('http://')) {
-        config.baseURL = config.baseURL.replace('http://', 'https://');
-        console.log('[API Request] Force upgraded baseURL to HTTPS:', config.baseURL);
-      }
-    }
-    
     // Check for both admin and client tokens
     const token = localStorage.getItem('admin_token') || 
                   localStorage.getItem('adminToken') || 
@@ -77,7 +69,9 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    console.log('[API Request]', config.method.toUpperCase(), config.url, 'Base:', config.baseURL);
+    // Log for debugging
+    const finalUrl = config.baseURL ? `${config.baseURL}${config.url}` : config.url;
+    console.log('[API Request]', config.method.toUpperCase(), finalUrl);
     
     return config;
   },
