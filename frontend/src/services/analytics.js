@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { getBackendURL } from '../lib/utils';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL || '/api';
+const API_URL = getBackendURL();
 
 /**
  * Track analytics event - fails silently to not block user actions
