@@ -425,12 +425,25 @@ export default function ClientDashboard() {
             </div>
             <div className="flex items-center gap-3">
               <Button
+                onClick={() => {
+                  const token = localStorage.getItem('client_token');
+                  fetchProjects(token);
+                  toast.success('Projects refreshed');
+                }}
+                variant="outline"
+                className="flex items-center gap-2 border-2 border-gray-200 hover:border-gray-400 hover:bg-gray-50 transition-all"
+                data-testid="refresh-projects-btn"
+              >
+                <RefreshCw className="w-4 h-4" />
+                <span className="hidden md:inline">Refresh</span>
+              </Button>
+              <Button
                 onClick={() => setShowTestimonialDialog(true)}
                 className="flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white shadow-md hover:shadow-lg transition-all"
                 data-testid="submit-testimonial-btn"
               >
                 <Star className="w-4 h-4 fill-current" />
-                Submit Testimonial
+                <span className="hidden md:inline">Submit Testimonial</span>
               </Button>
               <Button
                 variant="outline"
@@ -439,7 +452,7 @@ export default function ClientDashboard() {
                 data-testid="client-logout-btn"
               >
                 <LogOut className="w-4 h-4" />
-                Logout
+                <span className="hidden md:inline">Logout</span>
               </Button>
             </div>
           </div>
