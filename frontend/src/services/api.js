@@ -16,27 +16,18 @@ import axios from 'axios';
  * - Request interceptor adds additional protection by converting any HTTP to HTTPS when needed
  */
 
-// Determine the correct protocol based on the current page
-const getBaseURL = () => {
-  // For Kubernetes/production environments, use relative URL
-  // This ensures the protocol matches the page (HTTPS in production)
-  const baseURL = '/api';
-  
-  // Log the configuration for debugging
-  const protocol = window.location.protocol;
-  console.log(`[API Config] Page protocol: ${protocol}, baseURL: ${baseURL}`);
-  
-  return baseURL;
-};
-
-// Create axios instance with relative baseURL
+// Create axios instance WITHOUT baseURL to avoid protocol issues
+// All API calls will use full relative paths starting with /api
 const api = axios.create({
-  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 15000, // 15 second default timeout
 });
+
+// Log the configuration for debugging
+console.log('[API Config] Page protocol:', window.location.protocol);
+console.log('[API Config] Using full relative URLs (e.g., /api/...)');
 
 let isRefreshing = false;
 let failedQueue = [];
