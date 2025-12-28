@@ -1400,6 +1400,9 @@ function TaskDialog({ open, data, milestones, onClose, onSave }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{data ? 'Edit Task' : 'Add Task'}</DialogTitle>
+          <DialogDescription>
+            {data ? 'Update task details and status' : 'Create a new task for this project'}
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4 py-4">
