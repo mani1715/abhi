@@ -41,7 +41,7 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Add token to requests - protocol handling is automatic with relative URLs
+// Add token to requests and ensure HTTPS protocol
 api.interceptors.request.use(
   (config) => {
     // Check for both admin and client tokens
@@ -50,6 +50,22 @@ api.interceptors.request.use(
                   localStorage.getItem('client_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    // CRITICAL FIX FOR MIXED CONTENT ERROR
+    // If the page is loaded over HTTPS, ensure API requests also use HTTPS
+    if (window.location.protocol === 'https:') {
+      // If config.url is an absolute URL with http://, convert it to https://
+      if (config.url && config.url.startsWith('http://')) {
+        config.url = config.url.replace('http://', 'https://');
+        console.log('[API Security] Upgraded HTTP to HTTPS:', config.url);
+      }
+      
+      // If baseURL is an absolute URL with http://, convert it to https://
+      if (config.baseURL && config.baseURL.startsWith('http://')) {
+        config.baseURL = config.baseURL.replace('http://', 'https://');
+        console.log('[API Security] Upgraded baseURL to HTTPS:', config.baseURL);
+      }
     }
     
     // Log for debugging
