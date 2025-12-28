@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit, Save, X } from 'lucide-react';
 import axios from 'axios';
+import { getBackendURL } from '../../lib/utils';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+const BACKEND_URL = getBackendURL();
 
 const SkillsManager = () => {
   const [skills, setSkills] = useState([]);
