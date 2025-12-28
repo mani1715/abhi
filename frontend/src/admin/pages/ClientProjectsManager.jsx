@@ -72,6 +72,28 @@ export default function ClientProjectsManager() {
     tags: []
   });
 
+  // Utility function to extract error messages
+  const getErrorMessage = (error, defaultMessage = 'An error occurred') => {
+    if (error.response?.data?.detail) {
+      const detail = error.response.data.detail;
+      
+      // If detail is an array (validation errors)
+      if (Array.isArray(detail)) {
+        return detail.map(err => err.msg || err).join(', ');
+      } 
+      // If detail is a string
+      else if (typeof detail === 'string') {
+        return detail;
+      }
+      // If detail is an object
+      else if (typeof detail === 'object') {
+        return detail.msg || JSON.stringify(detail);
+      }
+    }
+    
+    return defaultMessage;
+  };
+
   useEffect(() => {
     fetchProjects();
     fetchClients();
