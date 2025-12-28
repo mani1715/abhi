@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, Video, PhoneCall } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { getBackendURL } from '../lib/utils';
 
 const BookConsultation = () => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ const BookConsultation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || '/api';
+  const backendUrl = getBackendURL();
 
   useEffect(() => {
     fetchSettings();
