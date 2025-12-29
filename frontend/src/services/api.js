@@ -31,9 +31,23 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Add token to requests
+// Add token to requests and construct full URL with correct protocol
 api.interceptors.request.use(
   (config) => {
+    // CRITICAL: Construct the full URL with the current page's protocol
+    // This ensures HTTP in development and HTTPS in production
+    if (config.url && !config.url.startsWith('http://') && !config.url.startsWith('https://')) {
+      const protocol = window.location.protocol; // 'https:' or 'http:'
+      const host = window.location.host; // domain with port
+      
+      // Construct full URL with correct protocol
+      // Example: '/client/projects' becomes 'https://code-medic-35.preview.emergentagent.com/api/client/projects'
+      const fullUrl = `${protocol}//${host}${config.url.startsWith('/api') ? '' : '/api'}${config.url}`;
+      config.url = fullUrl;
+      
+      console.log('[API] Constructed URL:', fullUrl);
+    }
+    
     // Check for both admin and client tokens
     const token = localStorage.getItem('admin_token') || 
                   localStorage.getItem('adminToken') || 
@@ -42,18 +56,14 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    // Double-check that we're not making HTTP requests from HTTPS page
-    if (window.location.protocol === 'https:' && config.url) {
-      // If somehow the URL still has http://, force it to https://
-      if (config.url.startsWith('http://')) {
-        config.url = config.url.replace('http://', 'https://');
-        console.log('[API Security] FORCED HTTP→HTTPS:', config.url);
-      }
+    // Security check: If we're on HTTPS, ensure we're not making HTTP requests
+    if (window.location.protocol === 'https:' && config.url?.startsWith('http://')) {
+      // Force upgrade HTTP to HTTPS
+      config.url = config.url.replace('http://', 'https://');
+      console.warn('[API Security] FORCED HTTP→HTTPS upgrade:', config.url);
     }
     
-    // Log for debugging - show the full URL that will be requested
-    const fullUrl = config.baseURL ? `${config.baseURL}${config.url || ''}` : config.url;
-    console.log('[API Request]', config.method.toUpperCase(), fullUrl);
+    console.log('[API Request]', config.method?.toUpperCase(), config.url);
     
     return config;
   },
