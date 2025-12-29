@@ -36,6 +36,9 @@ import MobileDesignHome from './demos/mobile-design/MobileDesignHome';
 // Restaurant Booking Demo
 import RestaurantBookingHome from './demos/restaurant/RestaurantBookingHome';
 
+// Hospitality Demo
+import HospitalityHome from './demos/hospitality/HospitalityHome';
+
 // SaaS Landing Demo
 import SaasLandingHome from './demos/saas/SaasLandingHome';
 
