@@ -58,8 +58,12 @@ export default function ClientLogin() {
 
       <Card className="w-full max-w-md relative z-10 shadow-2xl border-2 border-purple-100" data-testid="client-login-card">
         <CardHeader className="space-y-3 pb-6">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-            <Briefcase className="w-8 h-8 text-white" />
+          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform p-2">
+            <img 
+              src="/mspn-logo-transparent.png" 
+              alt="MSPN Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
             Client Portal
