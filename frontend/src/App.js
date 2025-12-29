@@ -123,6 +123,9 @@ function AppContent() {
           {/* Restaurant Booking Demo */}
           <Route path="/demo/restaurant-booking" element={<RestaurantBookingHome />} />
           
+          {/* Hospitality Demo */}
+          <Route path="/demo/hospitality" element={<HospitalityHome />} />
+          
           {/* SaaS Landing Demo */}
           <Route path="/demo/saas-landing" element={<SaasLandingHome />} />
           
