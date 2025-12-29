@@ -34,18 +34,34 @@ const processQueue = (error, token = null) => {
 // Add token to requests and construct full URL with correct protocol
 api.interceptors.request.use(
   (config) => {
-    // CRITICAL: Construct the full URL with the current page's protocol
-    // This ensures HTTP in development and HTTPS in production
-    if (config.url && !config.url.startsWith('http://') && !config.url.startsWith('https://')) {
-      const protocol = window.location.protocol; // 'https:' or 'http:'
-      const host = window.location.host; // domain with port
-      
-      // Construct full URL with correct protocol
-      // Example: '/client/projects' becomes 'https://code-medic-35.preview.emergentagent.com/api/client/projects'
-      const fullUrl = `${protocol}//${host}${config.url.startsWith('/api') ? '' : '/api'}${config.url}`;
-      config.url = fullUrl;
-      
-      console.log('[API] Constructed URL:', fullUrl);
+    // CRITICAL FIX: Construct full URL with current page's protocol
+    // This prevents mixed content errors in production (HTTPS)
+    
+    if (config.url) {
+      // If URL already has protocol, force HTTPS if page is HTTPS
+      if (config.url.startsWith('http://') || config.url.startsWith('https://')) {
+        if (window.location.protocol === 'https:' && config.url.startsWith('http://')) {
+          config.url = config.url.replace('http://', 'https://');
+          console.warn('[API Security] FORCED HTTP→HTTPS upgrade:', config.url);
+        }
+      } 
+      // If relative URL, construct full URL with page's protocol
+      else {
+        const protocol = window.location.protocol; // 'https:' or 'http:'
+        const host = window.location.host; // domain with port
+        
+        // Ensure URL starts with /api
+        let path = config.url;
+        if (!path.startsWith('/api')) {
+          path = '/api' + (path.startsWith('/') ? '' : '/') + path;
+        }
+        
+        // Construct full URL with correct protocol
+        const fullUrl = `${protocol}//${host}${path}`;
+        config.url = fullUrl;
+        
+        console.log('[API] Constructed URL:', fullUrl);
+      }
     }
     
     // Check for both admin and client tokens
@@ -54,13 +70,6 @@ api.interceptors.request.use(
                   localStorage.getItem('client_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-    }
-    
-    // Security check: If we're on HTTPS, ensure we're not making HTTP requests
-    if (window.location.protocol === 'https:' && config.url?.startsWith('http://')) {
-      // Force upgrade HTTP to HTTPS
-      config.url = config.url.replace('http://', 'https://');
-      console.warn('[API Security] FORCED HTTP→HTTPS upgrade:', config.url);
     }
     
     console.log('[API Request]', config.method?.toUpperCase(), config.url);
