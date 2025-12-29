@@ -1,31 +1,16 @@
 import axios from 'axios';
 
 /**
- * CRITICAL FIX FOR MIXED CONTENT ERROR - FINAL SOLUTION
+ * CRITICAL FIX FOR MIXED CONTENT ERROR - PRODUCTION READY SOLUTION
  * 
- * Issue: Axios was converting relative URLs to absolute HTTP URLs even with interceptors
- * Solution: Explicitly construct baseURL with current protocol to ensure HTTPS in production
+ * Issue: Mixed content error when HTTPS page tries to make HTTP API calls
+ * Solution: Use empty baseURL and construct full URLs dynamically in request interceptor
+ * This ensures the protocol always matches the current page (HTTP in dev, HTTPS in production)
  */
 
-// Determine the correct base URL with protocol matching the current page
-const getBaseURL = () => {
-  // If we're on HTTPS, explicitly construct HTTPS URL
-  // If we're on HTTP (local dev), use HTTP
-  const protocol = window.location.protocol; // 'https:' or 'http:'
-  const host = window.location.host; // 'api-secure-update.preview.emergentagent.com'
-  
-  // Construct full base URL with correct protocol
-  const baseURL = `${protocol}//${host}/api`;
-  
-  console.log('[API Config] Page protocol:', protocol);
-  console.log('[API Config] Constructed baseURL:', baseURL);
-  
-  return baseURL;
-};
-
-// Create axios instance with explicit HTTPS baseURL
+// Create axios instance with NO baseURL - we'll construct it dynamically per request
 const api = axios.create({
-  baseURL: getBaseURL(),
+  // NO baseURL here - will be constructed in interceptor
   headers: {
     'Content-Type': 'application/json',
   },
