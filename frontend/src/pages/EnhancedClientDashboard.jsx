@@ -54,6 +54,9 @@ export default function EnhancedClientDashboard() {
     if (selectedProject && activeTab === 'chat') {
       fetchChatMessages();
     }
+    if (selectedProject && activeTab === 'testimonial' && selectedProject.status === 'completed') {
+      fetchTestimonialData();
+    }
   }, [selectedProject, activeTab]);
 
   useEffect(() => {
