@@ -11,6 +11,7 @@ const AdminsManager = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [selectedPreset, setSelectedPreset] = useState('custom');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -45,6 +46,98 @@ const AdminsManager = () => {
       canViewPrivateProjects: true
     }
   });
+
+  // Permission Presets
+  const permissionPresets = {
+    super_admin: {
+      canManageAdmins: true,
+      canManageAbout: true,
+      canManagePortfolio: true,
+      canManageBlogs: true,
+      canManageTestimonials: true,
+      canManageDemos: true,
+      canViewContacts: true,
+      canManageContactPage: true,
+      canManageChat: true,
+      canManageNewsletter: true,
+      canManageBookings: true,
+      canManageBookingSettings: true,
+      canManagePricing: true,
+      canViewAnalytics: true,
+      canManageClients: true,
+      canManageClientProjects: true,
+      canAccessStorage: true,
+      canManageNotes: true,
+      canManageSettings: true,
+      canViewPrivateProjects: true
+    },
+    editor: {
+      canManageAdmins: false,
+      canManageAbout: true,
+      canManagePortfolio: true,
+      canManageBlogs: true,
+      canManageTestimonials: true,
+      canManageDemos: true,
+      canViewContacts: false,
+      canManageContactPage: true,
+      canManageChat: false,
+      canManageNewsletter: true,
+      canManageBookings: false,
+      canManageBookingSettings: false,
+      canManagePricing: false,
+      canViewAnalytics: false,
+      canManageClients: false,
+      canManageClientProjects: false,
+      canAccessStorage: false,
+      canManageNotes: true,
+      canManageSettings: false,
+      canViewPrivateProjects: false
+    },
+    moderator: {
+      canManageAdmins: false,
+      canManageAbout: false,
+      canManagePortfolio: false,
+      canManageBlogs: true,
+      canManageTestimonials: true,
+      canManageDemos: false,
+      canViewContacts: true,
+      canManageContactPage: false,
+      canManageChat: true,
+      canManageNewsletter: true,
+      canManageBookings: false,
+      canManageBookingSettings: false,
+      canManagePricing: false,
+      canViewAnalytics: false,
+      canManageClients: false,
+      canManageClientProjects: false,
+      canAccessStorage: false,
+      canManageNotes: true,
+      canManageSettings: false,
+      canViewPrivateProjects: false
+    },
+    viewer: {
+      canManageAdmins: false,
+      canManageAbout: false,
+      canManagePortfolio: false,
+      canManageBlogs: false,
+      canManageTestimonials: false,
+      canManageDemos: false,
+      canViewContacts: true,
+      canManageContactPage: false,
+      canManageChat: false,
+      canManageNewsletter: false,
+      canManageBookings: false,
+      canManageBookingSettings: false,
+      canManagePricing: false,
+      canViewAnalytics: true,
+      canManageClients: false,
+      canManageClientProjects: false,
+      canAccessStorage: false,
+      canManageNotes: false,
+      canManageSettings: false,
+      canViewPrivateProjects: false
+    }
+  };
 
   useEffect(() => {
     fetchCurrentUser();
