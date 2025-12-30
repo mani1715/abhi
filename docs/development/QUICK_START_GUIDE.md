@@ -2,10 +2,10 @@
 
 ## 🚀 Access Your Application
 
-**Live URL:** https://web-codebase-3.preview.emergentagent.com
+**Live URL:** https://source-deploy.preview.emergentagent.com
 
 ### Admin Panel Login
-**URL:** https://web-codebase-3.preview.emergentagent.com/admin/login
+**URL:** https://source-deploy.preview.emergentagent.com/admin/login
 
 ```
 Username: admin
@@ -315,9 +315,9 @@ Your portfolio management system is now fully operational with:
 ---
 
 **Quick Links:**
-- Admin Login: https://web-codebase-3.preview.emergentagent.com/admin/login
-- Client Login: https://web-codebase-3.preview.emergentagent.com/client/login
-- Main Site: https://web-codebase-3.preview.emergentagent.com
+- Admin Login: https://source-deploy.preview.emergentagent.com/admin/login
+- Client Login: https://source-deploy.preview.emergentagent.com/client/login
+- Main Site: https://source-deploy.preview.emergentagent.com
 
 **Documentation:**
 - Full fix details: `/app/MIXED_CONTENT_FIX_COMPLETE.md`
