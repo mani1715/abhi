@@ -18,8 +18,8 @@ class TestimonialCreate(BaseModel):
 
     @validator('status')
     def validate_status(cls, v):
-        if v not in ["pending", "approved"]:
-            raise ValueError('Status must be either "pending" or "approved"')
+        if v not in ["pending", "approved", "rejected"]:
+            raise ValueError('Status must be either "pending", "approved", or "rejected"')
         return v
 
     @validator('source')
