@@ -865,19 +865,19 @@ const AdminsManager = () => {
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManagePortfolio} onChange={() => togglePermission('canManagePortfolio')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Portfolio</span>
+                      <span>Manage Portfolio Projects</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageBlogs} onChange={() => togglePermission('canManageBlogs')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Blogs</span>
+                      <span>Manage Blogs & Articles</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageTestimonials} onChange={() => togglePermission('canManageTestimonials')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Testimonials</span>
+                      <span>Manage Testimonials & Reviews</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageDemos} onChange={() => togglePermission('canManageDemos')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Demos</span>
+                      <span>Manage Demo Showcases</span>
                     </label>
                   </div>
                 </div>
