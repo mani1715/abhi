@@ -143,6 +143,63 @@ export default function EnhancedClientDashboard() {
     toast.success('👋 Logged out successfully');
   };
 
+  const fetchTestimonialData = async () => {
+    if (!selectedProject) return;
+    
+    setLoadingTestimonial(true);
+    try {
+      const data = await getProjectTestimonial(selectedProject.id);
+      if (data.exists) {
+        setTestimonialData(data.testimonial);
+        setTestimonialForm({
+          role: data.testimonial.role || '',
+          message: data.testimonial.message,
+          rating: data.testimonial.rating
+        });
+      } else {
+        setTestimonialData(null);
+        setTestimonialForm({
+          role: '',
+          message: '',
+          rating: 5
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching testimonial:', error);
+      toast.error('Failed to load testimonial data');
+    } finally {
+      setLoadingTestimonial(false);
+    }
+  };
+
+  const handleSubmitTestimonial = async (e) => {
+    e.preventDefault();
+    if (!selectedProject || !testimonialForm.message.trim()) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    setLoadingTestimonial(true);
+    try {
+      if (testimonialData) {
+        // Update existing testimonial
+        await updateClientTestimonial(testimonialData.id, testimonialForm);
+        toast.success('✅ Testimonial updated successfully!');
+      } else {
+        // Submit new testimonial
+        await submitClientTestimonial(selectedProject.id, testimonialForm);
+        toast.success('✅ Thank you for your testimonial! It has been submitted for review.');
+      }
+      fetchTestimonialData();
+    } catch (error) {
+      console.error('Error submitting testimonial:', error);
+      const errorMessage = error.response?.data?.detail || 'Failed to submit testimonial';
+      toast.error(errorMessage);
+    } finally {
+      setLoadingTestimonial(false);
+    }
+  };
+
   const downloadFile = async (projectId, fileId, filename) => {
     const token = localStorage.getItem('client_token');
     try {
