@@ -884,23 +884,23 @@ const AdminsManager = () => {
 
                 {/* Communication */}
                 <div style={{ marginBottom: '16px' }}>
-                  <h4 style={{ fontSize: '13px', fontWeight: '600', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Communication</h4>
+                  <h4 style={{ fontSize: '13px', fontWeight: '600', color: '#6B7280', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Communication & Contacts</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px', background: '#F9FAFB', borderRadius: '6px', border: '1px solid #E5E7EB' }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canViewContacts} onChange={() => togglePermission('canViewContacts')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>View Contacts</span>
+                      <span>View Contact Submissions</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageContactPage} onChange={() => togglePermission('canManageContactPage')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Contact Page</span>
+                      <span>Manage Contact Page Content</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageChat} onChange={() => togglePermission('canManageChat')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Chat</span>
+                      <span>Manage Live Chat & Messages</span>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#374151' }}>
                       <input type="checkbox" checked={formData.permissions.canManageNewsletter} onChange={() => togglePermission('canManageNewsletter')} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-                      <span>Manage Newsletter</span>
+                      <span>Manage Newsletter Subscribers</span>
                     </label>
                   </div>
                 </div>
