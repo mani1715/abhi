@@ -1,15 +1,19 @@
-// craco.config.js
 const path = require("path");
 require("dotenv").config();
 
-// Environment variable overrides
+/**
+ * Environment flags
+ */
 const config = {
   disableHotReload: process.env.DISABLE_HOT_RELOAD === "true",
   enableVisualEdits: process.env.REACT_APP_ENABLE_VISUAL_EDITS === "true",
   enableHealthCheck: process.env.ENABLE_HEALTH_CHECK === "true",
+  isProduction: process.env.NODE_ENV === "production",
 };
 
-// Conditionally load visual editing modules only if enabled
+/**
+ * Optional modules (loaded only when enabled)
+ */
 let babelMetadataPlugin;
 let setupDevServer;
 
@@ -18,7 +22,6 @@ if (config.enableVisualEdits) {
   setupDevServer = require("./plugins/visual-edits/dev-server-setup");
 }
 
-// Conditionally load health check modules only if enabled
 let WebpackHealthPlugin;
 let setupHealthEndpoints;
 let healthPluginInstance;
@@ -29,42 +32,45 @@ if (config.enableHealthCheck) {
   healthPluginInstance = new WebpackHealthPlugin();
 }
 
-const webpackConfig = {
+/**
+ * CRACO configuration
+ */
+const cracoConfig = {
+  // 🔴 REQUIRED for react-scripts v5
+  reactScriptsVersion: "react-scripts",
+
   webpack: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     },
+
     configure: (webpackConfig) => {
+      // Production builds should be clean and minimal
+      if (!config.isProduction) {
+        if (config.disableHotReload) {
+          webpackConfig.plugins = webpackConfig.plugins.filter(
+            (plugin) =>
+              plugin.constructor.name !== "HotModuleReplacementPlugin"
+          );
 
-      // Disable hot reload completely if environment variable is set
-      if (config.disableHotReload) {
-        // Remove hot reload related plugins
-        webpackConfig.plugins = webpackConfig.plugins.filter(plugin => {
-          return !(plugin.constructor.name === 'HotModuleReplacementPlugin');
-        });
-
-        // Disable watch mode
-        webpackConfig.watch = false;
-        webpackConfig.watchOptions = {
-          ignored: /.*/, // Ignore all files
-        };
-      } else {
-        // Add ignored patterns to reduce watched directories
-        webpackConfig.watchOptions = {
-          ...webpackConfig.watchOptions,
-          ignored: [
-            '**/node_modules/**',
-            '**/.git/**',
-            '**/build/**',
-            '**/dist/**',
-            '**/coverage/**',
-            '**/public/**',
-          ],
-        };
+          webpackConfig.watch = false;
+          webpackConfig.watchOptions = { ignored: /.*/ };
+        } else {
+          webpackConfig.watchOptions = {
+            ...webpackConfig.watchOptions,
+            ignored: [
+              "**/node_modules/**",
+              "**/.git/**",
+              "**/build/**",
+              "**/dist/**",
+              "**/coverage/**",
+              "**/public/**",
+            ],
+          };
+        }
       }
 
-      // Add health check plugin to webpack if enabled
-      if (config.enableHealthCheck && healthPluginInstance) {
+      if (!config.isProduction && config.enableHealthCheck && healthPluginInstance) {
         webpackConfig.plugins.push(healthPluginInstance);
       }
 
@@ -73,60 +79,56 @@ const webpackConfig = {
   },
 };
 
-// Only add babel plugin if visual editing is enabled
+/**
+ * Optional Babel plugin
+ */
 if (config.enableVisualEdits) {
-  webpackConfig.babel = {
+  cracoConfig.babel = {
     plugins: [babelMetadataPlugin],
   };
 }
 
-// Setup dev server with visual edits and/or health check
-webpackConfig.devServer = (devServerConfig) => {
-  // In Kubernetes/containerized environments, ingress handles /api routing
-  // Only use proxy if explicitly in local development mode
-  const useProxy = process.env.USE_WEBPACK_PROXY === 'true';
-  
+/**
+ * DevServer configuration (DEV ONLY)
+ */
+cracoConfig.devServer = (devServerConfig) => {
+  if (config.isProduction) {
+    return devServerConfig;
+  }
+
+  const useProxy = process.env.USE_WEBPACK_PROXY === "true";
+
   if (useProxy) {
-    // CRITICAL FIX: Always respect the page's protocol
-    // If the page is HTTPS, proxy must target HTTPS
-    // If the page is HTTP (local dev), proxy targets HTTP
-    const backendProtocol = process.env.BACKEND_PROTOCOL || 'http:';
-    const backendHost = process.env.BACKEND_HOST || 'localhost:8001';
+    const backendProtocol = process.env.BACKEND_PROTOCOL || "http:";
+    const backendHost = process.env.BACKEND_HOST || "localhost:8001";
     const backendTarget = `${backendProtocol}//${backendHost}`;
-    
-    // Add proxy configuration for API requests
+
     devServerConfig.proxy = {
-      '/api': {
+      "/api": {
         target: backendTarget,
         changeOrigin: true,
         secure: false,
-        ws: true, // Enable WebSocket proxying
-        logLevel: 'debug'
+        ws: true,
+        logLevel: "debug",
       },
     };
-    console.log(`[Proxy] Configured /api proxy to: ${backendTarget}`);
-    console.log(`[Proxy] NOTE: In production with HTTPS, disable proxy by setting USE_WEBPACK_PROXY=false`);
-  }
-  // Otherwise, /api requests go directly to the same host (handled by ingress)
 
-  // Apply visual edits dev server setup if enabled
+    console.log(`[Proxy] /api → ${backendTarget}`);
+  }
+
   if (config.enableVisualEdits && setupDevServer) {
     devServerConfig = setupDevServer(devServerConfig);
   }
 
-  // Add health check endpoints if enabled
   if (config.enableHealthCheck && setupHealthEndpoints && healthPluginInstance) {
-    const originalSetupMiddlewares = devServerConfig.setupMiddlewares;
+    const originalSetup = devServerConfig.setupMiddlewares;
 
     devServerConfig.setupMiddlewares = (middlewares, devServer) => {
-      // Call original setup if exists
-      if (originalSetupMiddlewares) {
-        middlewares = originalSetupMiddlewares(middlewares, devServer);
+      if (originalSetup) {
+        middlewares = originalSetup(middlewares, devServer);
       }
 
-      // Setup health endpoints
       setupHealthEndpoints(devServer, healthPluginInstance);
-
       return middlewares;
     };
   }
@@ -134,4 +136,4 @@ webpackConfig.devServer = (devServerConfig) => {
   return devServerConfig;
 };
 
-module.exports = webpackConfig;
+module.exports = cracoConfig;
