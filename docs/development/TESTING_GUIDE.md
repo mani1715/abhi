@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://portfolio-draft-3.preview.emergentagent.com
+**Preview URL**: https://code-rescue-60.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://portfolio-draft-3.preview.emergentagent.com/admin/login
+- **URL**: https://code-rescue-60.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
