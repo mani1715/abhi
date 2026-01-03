@@ -145,6 +145,11 @@ function AppContent() {
           <Route path="/demo/lms/courses" element={<LmsCourses />} />
           <Route path="/demo/lms/course/:slug" element={<LmsCourseDetail />} />
           
+          {/* Real Estate Demo Routes */}
+          <Route path="/demo/real-estate" element={<RealEstateHome />} />
+          <Route path="/demo/real-estate/listings" element={<RealEstateListings />} />
+          <Route path="/demo/real-estate/property/:slug" element={<RealEstatePropertyDetail />} />
+          
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
