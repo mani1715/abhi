@@ -217,12 +217,6 @@ const Services = () => {
       <section className="cta-section-services" data-admin-editable="cta-section">
         <div className="cta-background-gradient-services"></div>
         <div className="cta-container-services">
-          <div className="cta-sparkles-wrapper-services">
-            <Sparkles className="cta-sparkle sparkle-1" />
-            <Sparkles className="cta-sparkle sparkle-2" />
-            <Sparkles className="cta-sparkle sparkle-3" />
-          </div>
-          
           <h2 className="cta-title-services" data-admin-editable="cta-title">
             Ready to Build Your Website?
           </h2>
