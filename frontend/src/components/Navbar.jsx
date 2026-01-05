@@ -23,25 +23,14 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Logo with Transparent Image */}
+        {/* Logo Text Only */}
         <Link to="/" className="navbar-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
           textDecoration: 'none'
         }}>
-          <img 
-            src="/prompt-forge-logo.png" 
-            alt="Prompt Forge Logo" 
-            style={{
-              height: '50px',
-              width: 'auto',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(0, 200, 255, 0.5))'
-            }}
-          />
           <span className="logo-text" style={{
-            fontSize: '20px',
+            fontSize: '24px',
             fontWeight: '700',
             background: 'linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #8B5CF6 100%)',
             WebkitBackgroundClip: 'text',
