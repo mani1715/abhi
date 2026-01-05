@@ -1,0 +1,10 @@
+/* Hide any sparkle decorations on service cards */
+.detailed-service-card::before,
+.detailed-service-card::after {
+  display: none !important;
+}
+
+.service-card-header-detailed::before,
+.service-card-header-detailed::after {
+  display: none !important;
+}
