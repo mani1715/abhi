@@ -79,13 +79,13 @@ const Footer = () => {
             {/* Transparent Logo Image */}
             <div style={{ marginBottom: '16px' }}>
               <img 
-                src="/promptforge-logo-transparent.png" 
+                src="/prompt-forge-logo.png" 
                 alt="Prompt Forge Logo" 
                 style={{
                   height: '70px',
                   width: 'auto',
                   objectFit: 'contain',
-                  filter: 'drop-shadow(0 4px 12px rgba(139, 92, 246, 0.5)) brightness(1.2) saturate(1.2)'
+                  filter: 'drop-shadow(0 4px 12px rgba(0, 200, 255, 0.6)) brightness(1.1)'
                 }}
               />
             </div>
