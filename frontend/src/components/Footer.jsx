@@ -76,24 +76,13 @@ const Footer = () => {
         {/* Footer Top */}
         <div className="footer-top">
           <div className="footer-brand">
-            {/* Transparent Logo Image */}
-            <div style={{ marginBottom: '16px' }}>
-              <img 
-                src="/prompt-forge-logo.png" 
-                alt="Prompt Forge Logo" 
-                style={{
-                  height: '70px',
-                  width: 'auto',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 4px 12px rgba(0, 200, 255, 0.6)) brightness(1.1)'
-                }}
-              />
-            </div>
+            {/* Brand Name Only */}
             <h3 className="footer-logo" style={{
               color: '#FFFFFF',
               fontWeight: '700',
-              fontSize: '26px',
-              letterSpacing: '0.5px'
+              fontSize: '32px',
+              letterSpacing: '0.5px',
+              marginBottom: '12px'
             }}>
               {agencyInfo.name}
             </h3>
