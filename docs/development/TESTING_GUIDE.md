@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://text-alchemy.preview.emergentagent.com
+**Preview URL**: https://content-studio-130.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://text-alchemy.preview.emergentagent.com/admin/login
+- **URL**: https://content-studio-130.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
