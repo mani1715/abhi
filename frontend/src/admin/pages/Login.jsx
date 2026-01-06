@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/api/auth/login`,   // ✅ FIXED URL
+        `${BACKEND_URL}/admins/login`,   // ✅ FIXED - Using correct admin endpoint
         {
           username,
           password
