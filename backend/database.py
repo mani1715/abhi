@@ -82,6 +82,9 @@ clients_collection = db["clients"]
 client_projects_collection = db["client_projects"]
 bookings_collection = db["bookings"]
 booking_settings_collection = db["booking_settings"]
+feelings_services_collection = db["feelings_services"]
+service_requests_collection = db["service_requests"]
+generated_links_collection = db["generated_links"]
 
 # ---------------- CLEAN SHUTDOWN ----------------
 async def close_db_connection():
