@@ -23,7 +23,8 @@ from routes import (
     chat_router,
     blogs_router,
     newsletter_router,
-    analytics_router
+    analytics_router,
+    feelings_services_router
 )
 from routes.contact_page import router as contact_page_router
 from routes.testimonials import router as testimonials_router
