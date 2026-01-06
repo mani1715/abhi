@@ -48,6 +48,9 @@ const Services = () => {
 
   return (
     <div className="services-page-premium">
+      {/* FEELINGS SERVICES SECTION - NEW HERO + SERVICES */}
+      <FeelingsServicesSection />
+
       {/* SERVICES HERO SECTION */}
       <section className="services-hero-premium" data-admin-editable="services-hero">
         <div className="services-hero-background">
