@@ -9,6 +9,7 @@ import { detailedServices, whyChooseUs, processSteps } from '../data/mock';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { trackPageView } from '../services/analytics';
+import FeelingsServicesSection from '../components/FeelingsServicesSection';
 import './pages.css';
 
 const Services = () => {
