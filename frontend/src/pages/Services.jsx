@@ -9,7 +9,7 @@ import { whyChooseUs, processSteps } from '../data/mock';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { trackPageView } from '../services/analytics';
-import { getServices } from '../services/serviceService';
+import serviceService from '../services/serviceService';
 import FeelingsServicesSection from '../components/FeelingsServicesSection';
 import './pages.css';
 
@@ -24,7 +24,7 @@ const Services = () => {
     // Fetch services from API
     const fetchServicesData = async () => {
       try {
-        const data = await getServices();
+        const data = await serviceService.getAllServices();
         setServices(data);
       } catch (error) {
         console.error('Error fetching services:', error);
