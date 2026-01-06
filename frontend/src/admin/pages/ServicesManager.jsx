@@ -21,6 +21,11 @@ const ServicesManager = () => {
     'Database', 'Cloud', 'Settings', 'Zap', 'Globe'
   ];
 
+  // Fetch services on component mount
+  useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
+
   const handleOpenModal = (service = null) => {
     if (service) {
       setEditingService(service);
