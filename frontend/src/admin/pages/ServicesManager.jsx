@@ -147,6 +147,21 @@ const ServicesManager = () => {
             </div>
 
             <div style={{ marginBottom: '16px' }}>
+              {service.image && (
+                <div style={{ marginBottom: '12px' }}>
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    style={{
+                      width: '100%',
+                      height: '180px',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                </div>
+              )}
               <div className="admin-stat-icon purple" style={{ marginBottom: '16px' }}>
                 {service.icon}
               </div>
@@ -166,6 +181,16 @@ const ServicesManager = () => {
               }}>
                 {service.description}
               </p>
+              {service.link && (
+                <div style={{
+                  fontSize: '13px',
+                  color: '#7C5CFF',
+                  marginBottom: '8px',
+                  wordBreak: 'break-all'
+                }}>
+                  🔗 {service.link}
+                </div>
+              )}
             </div>
 
             {service.features && service.features.length > 0 && (
