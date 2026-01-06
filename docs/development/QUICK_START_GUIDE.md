@@ -2,10 +2,10 @@
 
 ## 🚀 Access Your Application
 
-**Live URL:** https://content-studio-130.preview.emergentagent.com
+**Live URL:** https://moodcraft-21.preview.emergentagent.com
 
 ### Admin Panel Login
-**URL:** https://content-studio-130.preview.emergentagent.com/admin/login
+**URL:** https://moodcraft-21.preview.emergentagent.com/admin/login
 
 ```
 Username: admin
@@ -315,9 +315,9 @@ Your portfolio management system is now fully operational with:
 ---
 
 **Quick Links:**
-- Admin Login: https://content-studio-130.preview.emergentagent.com/admin/login
-- Client Login: https://content-studio-130.preview.emergentagent.com/client/login
-- Main Site: https://content-studio-130.preview.emergentagent.com
+- Admin Login: https://moodcraft-21.preview.emergentagent.com/admin/login
+- Client Login: https://moodcraft-21.preview.emergentagent.com/client/login
+- Main Site: https://moodcraft-21.preview.emergentagent.com
 
 **Documentation:**
 - Full fix details: `/app/MIXED_CONTENT_FIX_COMPLETE.md`
