@@ -7,7 +7,7 @@
 - Go to the **Console** tab
 
 ### 2. Navigate to Client Dashboard
-- Go to: `https://prompt-forge-117.preview.emergentagent.com/client/dashboard`
+- Go to: `https://magical-brahmagupta-1.preview.emergentagent.com/client/dashboard`
 - Or your actual HTTPS URL
 
 ### 3. Check Console Logs (MOST IMPORTANT)
