@@ -84,6 +84,9 @@ import ClientsManager from './admin/pages/ClientsManager';
 import ClientProjectsManager from './admin/pages/ClientProjectsManager';
 import BookingsManager from './admin/pages/BookingsManager';
 import BookingSettings from './admin/pages/BookingSettings';
+import FeelingsServicesManager from './admin/pages/FeelingsServicesManager';
+import ServiceRequestsManager from './admin/pages/ServiceRequestsManager';
+import GeneratedLinksManager from './admin/pages/GeneratedLinksManager';
 
 function AppContent() {
   const location = useLocation();
