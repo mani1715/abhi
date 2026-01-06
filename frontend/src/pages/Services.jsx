@@ -1,21 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Code, ShoppingCart, Layers, Palette,
   CheckCircle, Zap, Award, Smartphone, Code2, Search, Shield,
-  FileSearch, CheckCircle2, Rocket, HeartHandshake
+  FileSearch, CheckCircle2, Rocket, HeartHandshake, ExternalLink
 } from 'lucide-react';
-import { detailedServices, whyChooseUs, processSteps } from '../data/mock';
+import { whyChooseUs, processSteps } from '../data/mock';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { trackPageView } from '../services/analytics';
+import { getServices } from '../services/serviceService';
 import FeelingsServicesSection from '../components/FeelingsServicesSection';
 import './pages.css';
 
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // Track page view
     trackPageView('services');
+    
+    // Fetch services from API
+    const fetchServicesData = async () => {
+      try {
+        const data = await getServices();
+        setServices(data);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchServicesData();
   }, []);
 
   // Icon mapping for services
