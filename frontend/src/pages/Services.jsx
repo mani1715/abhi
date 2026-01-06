@@ -12,6 +12,7 @@ import { trackPageView } from '../services/analytics';
 import serviceService from '../services/serviceService';
 import FeelingsServicesSection from '../components/FeelingsServicesSection';
 import './pages.css';
+import './Services.css';
 
 const Services = () => {
   const [services, setServices] = useState([]);
