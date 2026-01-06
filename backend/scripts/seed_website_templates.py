@@ -153,6 +153,48 @@ async def seed_website_templates():
             "order": 7,
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat()
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "title": "Engagement Invitation",
+            "description": "Beautiful engagement invitation website with RSVP system, photo gallery, and event details. Share your special moment online.",
+            "icon": "Code",
+            "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+            "link": "https://engagement-demo.example.com",
+            "link_text": "View Demo",
+            "features": [
+                "RSVP System",
+                "Photo Gallery",
+                "Event Timeline",
+                "Location Map",
+                "Guest Messages"
+            ],
+            "price": "$799",
+            "active": True,
+            "order": 8,
+            "created_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.utcnow().isoformat()
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "title": "Business Proposal Site",
+            "description": "Professional proposal website to showcase your business pitch. Includes interactive sections, pricing tables, and contact forms.",
+            "icon": "Code",
+            "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+            "link": "https://proposal-demo.example.com",
+            "link_text": "View Demo",
+            "features": [
+                "Pitch Sections",
+                "Pricing Tables",
+                "Team Showcase",
+                "Contact Integration",
+                "Document Downloads"
+            ],
+            "price": "$1,299",
+            "active": True,
+            "order": 9,
+            "created_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.utcnow().isoformat()
         }
     ]
     
