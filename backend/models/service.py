@@ -7,6 +7,9 @@ class Service(BaseModel):
     title: str
     description: str
     icon: str
+    image: Optional[str] = None  # Service image/photo URL
+    link: Optional[str] = None  # External or internal link
+    link_text: Optional[str] = "Learn More"  # Link button text
     features: List[str] = []
     price: Optional[str] = None
     active: bool = True
@@ -20,6 +23,9 @@ class Service(BaseModel):
                 "title": "Web Development",
                 "description": "Custom web applications",
                 "icon": "Code",
+                "image": "https://example.com/web-dev-image.jpg",
+                "link": "https://example.com/web-development",
+                "link_text": "View Details",
                 "features": ["Responsive Design", "SEO Optimized"],
                 "price": "Starting at $2,999",
                 "active": True,
