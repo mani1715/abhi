@@ -23,6 +23,7 @@ class FeelingsServiceUpdate(BaseModel):
     offer_price: Optional[float] = Field(None, gt=0)
     currency: Optional[str] = None
     images: Optional[List[str]] = None
+    demo_url: Optional[str] = None
     is_active: Optional[bool] = None
     display_order: Optional[int] = None
 
