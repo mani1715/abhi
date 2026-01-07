@@ -349,6 +349,37 @@ const FeelingsServicesManager = () => {
                   />
                 </div>
 
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Live Demo URL</label>
+                  <input
+                    type="url"
+                    className="admin-form-input"
+                    value={formData.demo_url}
+                    onChange={(e) => handleInputChange('demo_url', e.target.value)}
+                    placeholder="https://your-demo-site.netlify.app/"
+                  />
+                  <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '4px' }}>
+                    Enter the URL of the live demo website (e.g., https://engagement-proposal-website.netlify.app/)
+                  </p>
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Service Images (one URL per line)</label>
+                  <textarea
+                    className="admin-form-textarea"
+                    value={formData.images.join('\n')}
+                    onChange={(e) => {
+                      const imagesArray = e.target.value.split('\n').map(img => img.trim()).filter(img => img);
+                      handleInputChange('images', imagesArray);
+                    }}
+                    rows={3}
+                    placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+                  />
+                  <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '4px' }}>
+                    Add image URLs for the service screenshots/preview images
+                  </p>
+                </div>
+
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                   <div className="admin-form-group">
                     <label className="admin-form-label">Original Price *</label>
