@@ -166,7 +166,7 @@ const FeelingsServicesSection = () => {
       <section className="feelings-services-section">
         <div className="feelings-container">
           <div className="section-header-feelings">
-            <h2 className="section-title-feelings">Our Feelings Expression Services</h2>
+            <h2 className="section-title-feelings">Our Service Collection</h2>
             <p className="section-description-feelings">
               Choose the perfect service for your special occasion
             </p>
