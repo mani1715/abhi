@@ -136,14 +136,13 @@ const FeelingsServicesSection = () => {
           </div>
           
           <h1 className="feelings-hero-title" data-testid="feelings-hero-title">
-            We build feelings
+            We Don't Build Websites,
             <br />
-            <span className="feelings-hero-subtitle">not websites</span>
+            <span className="feelings-hero-subtitle">We Build Feelings</span>
           </h1>
           
           <p className="feelings-hero-description">
-            Create beautiful untold stories with mini-sites that express your feelings. 
-            Perfect for birthdays, engagements, proposals, and special moments that deserve to be remembered.
+            Explore our collection of beautifully crafted web experiences designed to create lasting memories. Each service is a unique way to express your emotions and share special moments with your loved ones.
           </p>
 
           <div className="feelings-hero-features">
