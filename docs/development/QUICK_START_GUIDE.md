@@ -2,10 +2,10 @@
 
 ## 🚀 Access Your Application
 
-**Live URL:** https://magical-brahmagupta-1.preview.emergentagent.com
+**Live URL:** https://forge-studio-6.preview.emergentagent.com
 
 ### Admin Panel Login
-**URL:** https://magical-brahmagupta-1.preview.emergentagent.com/admin/login
+**URL:** https://forge-studio-6.preview.emergentagent.com/admin/login
 
 ```
 Username: admin
@@ -315,9 +315,9 @@ Your portfolio management system is now fully operational with:
 ---
 
 **Quick Links:**
-- Admin Login: https://magical-brahmagupta-1.preview.emergentagent.com/admin/login
-- Client Login: https://magical-brahmagupta-1.preview.emergentagent.com/client/login
-- Main Site: https://magical-brahmagupta-1.preview.emergentagent.com
+- Admin Login: https://forge-studio-6.preview.emergentagent.com/admin/login
+- Client Login: https://forge-studio-6.preview.emergentagent.com/client/login
+- Main Site: https://forge-studio-6.preview.emergentagent.com
 
 **Documentation:**
 - Full fix details: `/app/MIXED_CONTENT_FIX_COMPLETE.md`

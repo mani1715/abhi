@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://magical-brahmagupta-1.preview.emergentagent.com
+**Preview URL**: https://forge-studio-6.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://magical-brahmagupta-1.preview.emergentagent.com/admin/login
+- **URL**: https://forge-studio-6.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
