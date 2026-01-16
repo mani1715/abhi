@@ -313,24 +313,24 @@ const Services = () => {
                       <ul style={{
                         listStyle: 'none',
                         padding: 0,
-                        margin: '0 0 16px 0',
+                        margin: '0 0 10px 0',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '6px'
+                        gap: '4px'
                       }}>
-                        {service.features.slice(0, 3).map((feature, idx) => (
+                        {service.features.slice(0, 2).map((feature, idx) => (
                           <li key={idx} style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '6px',
-                            fontSize: '12px',
+                            gap: '4px',
+                            fontSize: '11px',
                             color: '#334155'
                           }}>
                             <CheckCircle style={{
                               color: '#7C5CFF',
                               flexShrink: 0,
-                              width: '14px',
-                              height: '14px'
+                              width: '12px',
+                              height: '12px'
                             }} />
                             <span>{feature}</span>
                           </li>
