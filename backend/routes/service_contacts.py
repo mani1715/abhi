@@ -53,8 +53,6 @@ async def get_all_service_contacts(
     Get all service contact requests (Admin only)
     """
     try:
-        db = await get_database()
-        
         query = {}
         if status:
             query["status"] = status
