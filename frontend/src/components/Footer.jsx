@@ -313,14 +313,30 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="footer-bottom">
-          <p className="footer-copyright">
+        {/* Footer Bottom - Perfect Alignment */}
+        <div className="footer-bottom" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: '2rem',
+          flexWrap: 'wrap',
+          gap: '1rem'
+        }}>
+          <p className="footer-copyright" style={{
+            margin: 0,
+            color: 'rgba(255, 255, 255, 0.7)',
+            fontSize: '14px'
+          }}>
             © {currentYear} {agencyInfo.name}. All rights reserved.
           </p>
-          <div className="footer-bottom-links">
-            <span className="footer-link">Privacy Policy</span>
-            <span className="footer-link">Terms of Service</span>
+          <div className="footer-bottom-links" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2rem',
+            flexWrap: 'wrap'
+          }}>
+            <span className="footer-link" style={{ fontSize: '14px' }}>Privacy Policy</span>
+            <span className="footer-link" style={{ fontSize: '14px' }}>Terms of Service</span>
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
               <Link
                 to="/client/login"
