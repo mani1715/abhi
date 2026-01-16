@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Logo with Image */}
+        {/* Logo with Image and Text */}
         <Link to="/" className="navbar-logo" style={{
           display: 'flex',
           alignItems: 'center',
@@ -38,6 +38,17 @@ const Navbar = () => {
               objectFit: 'contain'
             }}
           />
+          <span style={{
+            fontSize: '24px',
+            fontWeight: '700',
+            background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            letterSpacing: '-0.5px'
+          }}>
+            Prompt Forge IN
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
