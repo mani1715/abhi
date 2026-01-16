@@ -406,7 +406,7 @@ const Services = () => {
                             e.currentTarget.style.boxShadow = '0 3px 10px rgba(124, 92, 255, 0.4)';
                           }}>
                           Contact Us
-                          <ArrowRight size={14} />
+                          <ArrowRight size={12} />
                         </Button>
                       </div>
                     </div>
