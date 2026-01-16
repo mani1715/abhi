@@ -132,7 +132,6 @@ async def delete_service_contact(
     Delete a service contact (Admin only)
     """
     try:
-        db = await get_database()
         result = await db.service_contacts.delete_one({"id": contact_id})
         
         if result.deleted_count == 0:
@@ -152,8 +151,6 @@ async def get_service_contacts_stats(current_admin = Depends(get_current_admin))
     Get statistics for service contacts (Admin only)
     """
     try:
-        db = await get_database()
-        
         total = await db.service_contacts.count_documents({})
         new = await db.service_contacts.count_documents({"status": "new"})
         contacted = await db.service_contacts.count_documents({"status": "contacted"})
