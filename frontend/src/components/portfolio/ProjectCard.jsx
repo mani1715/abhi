@@ -43,20 +43,20 @@ const ProjectCard = ({ project }) => {
         {/* Hover Overlay */}
         <div className="project-card-overlay">
           <div className="project-overlay-buttons">
-            <Link to={`/portfolio/${slug || id}`}>
-              <Button className="project-overlay-btn btn-view">
-                <span>View Case Study</span>
-              </Button>
-            </Link>
-
             {live_demo_url && (
               <a href={live_demo_url} target="_blank" rel="noopener noreferrer">
-                <Button className="project-overlay-btn btn-demo">
+                <Button className="project-overlay-btn btn-demo-primary">
                   <ExternalLink className="h-4 w-4" />
-                  <span>Live Demo</span>
+                  <span>View Live Demo</span>
                 </Button>
               </a>
             )}
+            
+            <Link to={`/portfolio/${slug || id}`}>
+              <Button className="project-overlay-btn btn-view-secondary">
+                <span>View Details</span>
+              </Button>
+            </Link>
           </div>
         </div>
 
