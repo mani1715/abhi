@@ -178,8 +178,8 @@
 
 .feelings-service-card {
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 20px;
   border: 2px solid rgba(212, 134, 156, 0.2);
   transition: all 0.3s ease;
   position: relative;
