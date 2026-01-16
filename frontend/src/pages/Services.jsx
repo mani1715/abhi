@@ -291,22 +291,22 @@ const Services = () => {
                       </div>
 
                       <h3 style={{
-                        fontSize: '18px',
+                        fontSize: '15px',
                         fontWeight: '700',
                         color: '#1C2A3A',
-                        marginBottom: '8px',
+                        marginBottom: '6px',
                         lineHeight: '1.2'
                       }}>
                         {service.title}
                       </h3>
 
                       <p style={{
-                        fontSize: '13px',
+                        fontSize: '12px',
                         color: '#64748b',
-                        lineHeight: '1.5',
-                        marginBottom: '12px'
+                        lineHeight: '1.4',
+                        marginBottom: '8px'
                       }}>
-                        {service.description.substring(0, 100)}...
+                        {service.description.substring(0, 80)}...
                       </p>
 
                       {/* Features List - Compact */}
