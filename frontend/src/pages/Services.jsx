@@ -48,6 +48,9 @@ const Services = () => {
     HeartHandshake: HeartHandshake
   };
 
+  // Featured Birthday Service
+  const featuredBirthdayService = detailedServices.find(s => s.id === 5);
+
   return (
     <div className="services-page-premium">
       {/* SERVICES HERO SECTION - COLORFUL DESIGN */}
