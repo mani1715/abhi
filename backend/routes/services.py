@@ -78,3 +78,46 @@ async def delete_service(service_id: str):
             detail="Service not found"
         )
     return {"message": "Service deleted successfully"}
+
+@router.post("/upload-image")
+async def upload_service_image(file: UploadFile = File(...)):
+    """
+    Upload service image file (public endpoint - no auth required for admin panel use)
+    Supported formats: JPG, PNG, WEBP
+    """
+    try:
+        # Validate file type
+        allowed_extensions = {'.jpg', '.jpeg', '.png', '.webp'}
+        file_extension = os.path.splitext(file.filename)[1].lower()
+        
+        if file_extension not in allowed_extensions:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid file type. Allowed: {', '.join(allowed_extensions)}"
+            )
+        
+        # Generate unique filename
+        unique_filename = f"{uuid.uuid4()}{file_extension}"
+        file_path = UPLOAD_DIR / unique_filename
+        
+        # Save file
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        # Return URL path (relative to public directory)
+        file_url = f"/uploads/services/{unique_filename}"
+        
+        return {
+            "success": True,
+            "url": file_url,
+            "filename": file.filename,
+            "message": "Image uploaded successfully"
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"File upload failed: {str(e)}"
+        )
