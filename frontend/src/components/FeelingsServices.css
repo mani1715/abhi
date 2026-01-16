@@ -287,27 +287,27 @@
 }
 
 .service-pricing {
-  margin: 24px 0;
-  padding-top: 20px;
+  margin: 18px 0;
+  padding-top: 16px;
   border-top: 1px solid rgba(212, 134, 156, 0.2);
 }
 
 .price-container {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .original-price {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #B8979F;
   text-decoration: line-through;
   font-weight: 500;
 }
 
 .offer-price {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #6B2D3C;
   font-weight: 700;
 }
@@ -316,9 +316,9 @@
   display: inline-block;
   background: linear-gradient(135deg, #E8B4C8, #F5D5E0);
   color: #6B2D3C;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.85rem;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
