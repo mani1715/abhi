@@ -73,6 +73,18 @@ const Services = () => {
             <Sparkles className="badge-icon" />
             <span>What We Offer</span>
           </div>
+          <h2 style={{
+            fontSize: '32px',
+            fontWeight: '600',
+            background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '16px',
+            textAlign: 'center'
+          }} data-admin-editable="services-tagline">
+            We build feelings not websites
+          </h2>
           <h1 className="services-hero-title-colorful" data-admin-editable="services-title">
             Our Services
           </h1>
