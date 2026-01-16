@@ -206,8 +206,8 @@ const Services = () => {
             {/* Featured Services Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-              gap: '24px'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '16px'
             }}>
               {featuredServices.map((service) => {
                 const IconComponent = serviceIconMap[service.icon] || Sparkles;
@@ -216,26 +216,26 @@ const Services = () => {
                     background: 'linear-gradient(135deg, #ffffff 0%, #fefcff 100%)',
                     border: '2px solid',
                     borderImage: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%) 1',
-                    borderRadius: '16px',
+                    borderRadius: '12px',
                     padding: '0',
                     overflow: 'hidden',
-                    boxShadow: '0 10px 30px rgba(124, 92, 255, 0.15)',
+                    boxShadow: '0 8px 20px rgba(124, 92, 255, 0.12)',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                     cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 15px 40px rgba(124, 92, 255, 0.25)';
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(124, 92, 255, 0.2)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(124, 92, 255, 0.15)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(124, 92, 255, 0.12)';
                   }}>
                     {/* Image Section */}
                     {service.image && (
                       <div style={{
                         position: 'relative',
-                        height: '200px',
+                        height: '140px',
                         overflow: 'hidden'
                       }}>
                         <img 
@@ -250,14 +250,14 @@ const Services = () => {
                         {service.price && (
                           <div style={{
                             position: 'absolute',
-                            top: '12px',
-                            right: '12px',
+                            top: '8px',
+                            right: '8px',
                             background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
                             color: '#0f172a',
-                            padding: '8px 16px',
+                            padding: '6px 12px',
                             borderRadius: '50px',
                             fontWeight: '700',
-                            fontSize: '14px',
+                            fontSize: '12px',
                             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
                           }}>
                             {service.price}
@@ -268,69 +268,69 @@ const Services = () => {
 
                     {/* Content Section */}
                     <div style={{
-                      padding: '24px'
+                      padding: '16px'
                     }}>
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px',
-                        marginBottom: '16px'
+                        gap: '8px',
+                        marginBottom: '12px'
                       }}>
                         <div style={{
-                          width: '48px',
-                          height: '48px',
+                          width: '36px',
+                          height: '36px',
                           background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
-                          borderRadius: '12px',
+                          borderRadius: '8px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           boxShadow: '0 4px 12px rgba(124, 92, 255, 0.3)'
                         }}>
-                          <IconComponent className="h-6 w-6" style={{ color: '#ffffff' }} />
+                          <IconComponent className="h-5 w-5" style={{ color: '#ffffff' }} />
                         </div>
                       </div>
 
                       <h3 style={{
-                        fontSize: '22px',
+                        fontSize: '18px',
                         fontWeight: '700',
                         color: '#1C2A3A',
-                        marginBottom: '12px',
+                        marginBottom: '8px',
                         lineHeight: '1.2'
                       }}>
                         {service.title}
                       </h3>
 
                       <p style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         color: '#64748b',
-                        lineHeight: '1.6',
-                        marginBottom: '16px'
+                        lineHeight: '1.5',
+                        marginBottom: '12px'
                       }}>
-                        {service.description.substring(0, 120)}...
+                        {service.description.substring(0, 100)}...
                       </p>
 
                       {/* Features List - Compact */}
                       <ul style={{
                         listStyle: 'none',
                         padding: 0,
-                        margin: '0 0 20px 0',
+                        margin: '0 0 16px 0',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '8px'
+                        gap: '6px'
                       }}>
                         {service.features.slice(0, 3).map((feature, idx) => (
                           <li key={idx} style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '8px',
-                            fontSize: '13px',
+                            gap: '6px',
+                            fontSize: '12px',
                             color: '#334155'
                           }}>
                             <CheckCircle style={{
                               color: '#7C5CFF',
                               flexShrink: 0,
-                              width: '16px',
-                              height: '16px'
+                              width: '14px',
+                              height: '14px'
                             }} />
                             <span>{feature}</span>
                           </li>
