@@ -86,6 +86,7 @@ import BookingsManager from './admin/pages/BookingsManager';
 import BookingSettings from './admin/pages/BookingSettings';
 import FeelingsServicesManager from './admin/pages/FeelingsServicesManager';
 import ServiceRequestsManager from './admin/pages/ServiceRequestsManager';
+import ServiceContactsManager from './admin/pages/ServiceContactsManager';
 import GeneratedLinksManager from './admin/pages/GeneratedLinksManager';
 
 function AppContent() {
