@@ -24,7 +24,8 @@ const Services = () => {
     Code: Code,
     ShoppingCart: ShoppingCart,
     Layers: Layers,
-    Palette: Palette
+    Palette: Palette,
+    Sparkles: Sparkles
   };
 
   // Icon mapping for why choose us
@@ -94,6 +95,27 @@ const Services = () => {
                   data-admin-editable={`service-${service.id}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
+                  {/* Service Image (if available) */}
+                  {service.image && (
+                    <div className="service-image-wrapper" style={{
+                      width: '100%',
+                      height: '200px',
+                      overflow: 'hidden',
+                      borderRadius: '12px 12px 0 0',
+                      marginBottom: '20px'
+                    }}>
+                      <img 
+                        src={service.image} 
+                        alt={service.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    </div>
+                  )}
+                  
                   <div className="service-card-header-detailed">
                     <div className="service-icon-detailed">
                       <IconComponent className="h-10 w-10" />
@@ -123,6 +145,51 @@ const Services = () => {
                       ))}
                     </ul>
                   </div>
+                  
+                  {/* Price Display */}
+                  {service.price && (
+                    <div style={{
+                      marginTop: '20px',
+                      padding: '12px',
+                      background: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)',
+                      borderRadius: '8px',
+                      textAlign: 'center'
+                    }}>
+                      <p style={{
+                        color: '#FFFFFF',
+                        fontWeight: '700',
+                        fontSize: '18px',
+                        margin: 0
+                      }}>
+                        {service.price}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Demo Link */}
+                  {service.demoLink && (
+                    <a 
+                      href={service.demoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        marginTop: '16px',
+                        padding: '12px',
+                        background: 'linear-gradient(135deg, #60A5FA 0%, #8B5CF6 100%)',
+                        borderRadius: '8px',
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                      View Live Demo →
+                    </a>
+                  )}
                   
                   <div className="service-card-gradient-detailed"></div>
                   <div className="service-card-glow"></div>
