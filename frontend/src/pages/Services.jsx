@@ -375,7 +375,7 @@ const Services = () => {
       <section className="detailed-services-section" data-admin-editable="detailed-services">
         <div className="section-container-premium">
           <div className="detailed-services-grid">
-            {detailedServices.map((service, index) => {
+            {detailedServices.filter(s => s.id !== 5).map((service, index) => {
               const IconComponent = serviceIconMap[service.icon] || Code;
               return (
                 <Card 
