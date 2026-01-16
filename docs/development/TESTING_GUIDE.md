@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://prompt-wizard-275.preview.emergentagent.com
+**Preview URL**: https://project-abhi.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://prompt-wizard-275.preview.emergentagent.com/admin/login
+- **URL**: https://project-abhi.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
