@@ -41,6 +41,9 @@ from routes.client_projects import router as client_projects_router
 from routes.bookings import router as bookings_router
 from routes.booking_settings import router as booking_settings_router
 
+# Service Contacts Router
+from routes.service_contacts import router as service_contacts_router
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
