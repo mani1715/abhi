@@ -141,6 +141,18 @@ api_router.include_router(feelings_services_router)
 app.include_router(api_router)
 
 # -------------------------------------------------------------------
+# Static Files (Serve uploaded files)
+# -------------------------------------------------------------------
+# Create public/uploads directory if it doesn't exist
+PUBLIC_DIR = Path("/app/public")
+PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
+UPLOADS_DIR = PUBLIC_DIR / "uploads"
+UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+
+# Mount static files
+app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
+
+# -------------------------------------------------------------------
 # Startup Initialization
 # -------------------------------------------------------------------
 @app.on_event("startup")
