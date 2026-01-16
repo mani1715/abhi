@@ -49,26 +49,33 @@ const Services = () => {
 
   return (
     <div className="services-page-premium">
-      {/* SERVICES HERO SECTION */}
-      <section className="services-hero-premium" data-admin-editable="services-hero">
-        <div className="services-hero-background">
-          <div className="hero-gradient-orb orb-1"></div>
-          <div className="hero-gradient-orb orb-2"></div>
-          <div className="hero-sparkles">
-            <Sparkles className="sparkle sparkle-1" />
-            <Sparkles className="sparkle sparkle-2" />
-            <Sparkles className="sparkle sparkle-3" />
+      {/* SERVICES HERO SECTION - COLORFUL DESIGN */}
+      <section className="services-hero-colorful" data-admin-editable="services-hero">
+        <div className="services-hero-background-colorful">
+          <div className="floral-decoration floral-left">
+            <svg viewBox="0 0 200 200" className="floral-svg">
+              <circle cx="100" cy="100" r="40" fill="#E8B4C8" opacity="0.3" />
+              <circle cx="120" cy="80" r="30" fill="#D4869C" opacity="0.4" />
+              <circle cx="80" cy="80" r="30" fill="#D4869C" opacity="0.4" />
+            </svg>
+          </div>
+          <div className="floral-decoration floral-right">
+            <svg viewBox="0 0 200 200" className="floral-svg">
+              <circle cx="100" cy="100" r="40" fill="#E8B4C8" opacity="0.3" />
+              <circle cx="120" cy="120" r="30" fill="#D4869C" opacity="0.4" />
+              <circle cx="80" cy="120" r="30" fill="#D4869C" opacity="0.4" />
+            </svg>
           </div>
         </div>
-        <div className="services-hero-container">
-          <div className="services-hero-badge" data-admin-editable="services-badge">
+        <div className="services-hero-container-colorful">
+          <div className="services-hero-badge-colorful" data-admin-editable="services-badge">
             <Sparkles className="badge-icon" />
             <span>What We Offer</span>
           </div>
-          <h1 className="services-hero-title" data-admin-editable="services-title">
+          <h1 className="services-hero-title-colorful" data-admin-editable="services-title">
             Our Services
           </h1>
-          <p className="services-hero-description" data-admin-editable="services-description">
+          <p className="services-hero-description-colorful" data-admin-editable="services-description">
             Comprehensive web solutions tailored to elevate your digital presence and drive business growth.
           </p>
         </div>
