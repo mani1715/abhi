@@ -277,16 +277,16 @@ const Services = () => {
                         marginBottom: '8px'
                       }}>
                         <div style={{
-                          width: '36px',
-                          height: '36px',
+                          width: '28px',
+                          height: '28px',
                           background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
-                          borderRadius: '8px',
+                          borderRadius: '6px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           boxShadow: '0 4px 12px rgba(124, 92, 255, 0.3)'
                         }}>
-                          <IconComponent className="h-5 w-5" style={{ color: '#ffffff' }} />
+                          <IconComponent className="h-4 w-4" style={{ color: '#ffffff' }} />
                         </div>
                       </div>
 
