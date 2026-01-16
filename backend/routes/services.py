@@ -1,12 +1,20 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from typing import List
 from schemas.service import ServiceCreate, ServiceUpdate, ServiceResponse
 from database import services_collection
 from utils import serialize_document
 from models import Service
 from datetime import datetime
+import os
+import shutil
+from pathlib import Path
+import uuid
 
 router = APIRouter(prefix="/services", tags=["services"])
+
+# Create uploads directory if it doesn't exist
+UPLOAD_DIR = Path("/app/public/uploads/services")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 @router.get("/", response_model=List[ServiceResponse])
 async def get_services():
