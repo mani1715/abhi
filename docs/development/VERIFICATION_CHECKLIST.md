@@ -7,7 +7,7 @@
 - Go to the **Console** tab
 
 ### 2. Navigate to Client Dashboard
-- Go to: `https://digital-canvas-94.preview.emergentagent.com/client/dashboard`
+- Go to: `https://abhi-service-hub.preview.emergentagent.com/client/dashboard`
 - Or your actual HTTPS URL
 
 ### 3. Check Console Logs (MOST IMPORTANT)
