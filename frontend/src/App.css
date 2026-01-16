@@ -1270,6 +1270,11 @@ a {
   }
   
   /* Footer */
+  .footer-top {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
   .footer-links-container {
     grid-template-columns: 1fr;
   }
