@@ -5,7 +5,8 @@ class ServiceCreate(BaseModel):
     title: str
     description: str
     icon: str
-    image: Optional[str] = None  # Service image/photo URL
+    image: Optional[str] = None  # Primary service image/photo URL (backward compatibility)
+    images: List[str] = []  # Multiple service images (URLs or uploaded file paths)
     link: Optional[str] = None  # External or internal link
     link_text: Optional[str] = "Learn More"  # Link button text
     features: List[str] = []
@@ -17,7 +18,8 @@ class ServiceUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     icon: Optional[str] = None
-    image: Optional[str] = None  # Service image/photo URL
+    image: Optional[str] = None  # Primary service image/photo URL (backward compatibility)
+    images: Optional[List[str]] = None  # Multiple service images
     link: Optional[str] = None  # External or internal link
     link_text: Optional[str] = None  # Link button text
     features: Optional[List[str]] = None
@@ -30,7 +32,8 @@ class ServiceResponse(BaseModel):
     title: str
     description: str
     icon: str
-    image: Optional[str] = None  # Service image/photo URL
+    image: Optional[str] = None  # Primary service image/photo URL (backward compatibility)
+    images: List[str] = []  # Multiple service images
     link: Optional[str] = None  # External or internal link
     link_text: Optional[str] = "Learn More"  # Link button text
     features: List[str]
