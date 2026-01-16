@@ -340,7 +340,7 @@ const Services = () => {
                       {/* Action Buttons */}
                       <div style={{
                         display: 'flex',
-                        gap: '12px',
+                        gap: '8px',
                         flexWrap: 'wrap'
                       }}>
                         {service.demoLink && (
@@ -351,30 +351,30 @@ const Services = () => {
                             style={{
                               display: 'inline-flex',
                               alignItems: 'center',
-                              gap: '6px',
+                              gap: '4px',
                               background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
                               color: '#0f172a',
-                              padding: '10px 20px',
-                              borderRadius: '8px',
+                              padding: '8px 14px',
+                              borderRadius: '6px',
                               textDecoration: 'none',
                               fontWeight: '600',
-                              fontSize: '14px',
+                              fontSize: '12px',
                               transition: 'all 0.3s ease',
-                              boxShadow: '0 4px 12px rgba(234, 179, 8, 0.4)',
+                              boxShadow: '0 3px 10px rgba(234, 179, 8, 0.4)',
                               border: 'none',
                               cursor: 'pointer',
                               flex: 1
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'translateY(-2px)';
-                              e.currentTarget.style.boxShadow = '0 6px 20px rgba(234, 179, 8, 0.5)';
+                              e.currentTarget.style.boxShadow = '0 5px 15px rgba(234, 179, 8, 0.5)';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.transform = 'translateY(0)';
-                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(234, 179, 8, 0.4)';
+                              e.currentTarget.style.boxShadow = '0 3px 10px rgba(234, 179, 8, 0.4)';
                             }}
                           >
-                            <Sparkles size={16} />
+                            <Sparkles size={14} />
                             View Demo
                           </a>
                         )}
@@ -384,29 +384,29 @@ const Services = () => {
                           style={{
                             background: 'linear-gradient(135deg, #7C5CFF 0%, #A78BFA 100%)',
                             color: '#ffffff',
-                            padding: '10px 20px',
-                            borderRadius: '8px',
+                            padding: '8px 14px',
+                            borderRadius: '6px',
                             fontWeight: '600',
-                            fontSize: '14px',
+                            fontSize: '12px',
                             border: 'none',
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
-                            boxShadow: '0 4px 12px rgba(124, 92, 255, 0.4)',
+                            boxShadow: '0 3px 10px rgba(124, 92, 255, 0.4)',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '6px',
+                            gap: '4px',
                             flex: 1
                           }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 92, 255, 0.5)';
+                            e.currentTarget.style.boxShadow = '0 5px 15px rgba(124, 92, 255, 0.5)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(124, 92, 255, 0.4)';
+                            e.currentTarget.style.boxShadow = '0 3px 10px rgba(124, 92, 255, 0.4)';
                           }}>
                           Contact Us
-                          <ArrowRight size={16} />
+                          <ArrowRight size={14} />
                         </Button>
                       </div>
                     </div>
