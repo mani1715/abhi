@@ -209,7 +209,7 @@ const FeelingsServicesSection = () => {
 
                   <div className="service-card-header">
                     <div className="service-icon-feelings">
-                      <EventIcon className="w-8 h-8" />
+                      <EventIcon className="w-6 h-6" />
                     </div>
                     <div className="service-badge">{service.event_type}</div>
                   </div>
