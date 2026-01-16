@@ -1168,7 +1168,8 @@ a {
   }
   
   .footer-top {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
   }
   
   .footer-links-container {
