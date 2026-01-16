@@ -593,10 +593,10 @@ const Services = () => {
                   {service.image && (
                     <div className="service-image-wrapper" style={{
                       width: '100%',
-                      height: '200px',
+                      height: '120px',
                       overflow: 'hidden',
                       borderRadius: '12px 12px 0 0',
-                      marginBottom: '20px'
+                      marginBottom: '16px'
                     }}>
                       <img 
                         src={service.image} 
