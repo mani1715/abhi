@@ -340,7 +340,7 @@ const Services = () => {
                       {/* Action Buttons */}
                       <div style={{
                         display: 'flex',
-                        gap: '8px',
+                        gap: '6px',
                         flexWrap: 'wrap'
                       }}>
                         {service.demoLink && (
