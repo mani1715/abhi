@@ -20,10 +20,58 @@ import './pages.css';
 import './Services.css';
 
 const Services = () => {
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    customer_name: '',
+    customer_email: '',
+    customer_phone: '',
+    message: ''
+  });
+
   useEffect(() => {
     // Track page view
     trackPageView('services');
   }, []);
+
+  const handleContactClick = (service) => {
+    setSelectedService(service);
+    setShowContactForm(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmitContact = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const contactData = {
+        service_id: selectedService.id.toString(),
+        service_name: selectedService.title,
+        ...formData
+      };
+
+      await api.post('/service-contacts/', contactData);
+      toast.success('Request submitted successfully! We will contact you soon.');
+      setShowContactForm(false);
+      setFormData({
+        customer_name: '',
+        customer_email: '',
+        customer_phone: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error submitting contact:', error);
+      toast.error('Failed to submit request. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   // Icon mapping for services
   const serviceIconMap = {
