@@ -268,16 +268,16 @@
 .service-features-feelings {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 16px 0;
 }
 
 .service-features-feelings li {
   display: flex;
   align-items: start;
-  gap: 8px;
+  gap: 6px;
   color: #6B2D3C;
-  margin-bottom: 10px;
-  font-size: 0.95rem;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
 }
 
 .feature-bullet {
