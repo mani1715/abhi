@@ -206,8 +206,11 @@ const Services = () => {
             {/* Featured Services Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '12px'
+              gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 320px))',
+              gap: '20px',
+              justifyContent: 'center',
+              maxWidth: '1400px',
+              margin: '0 auto'
             }}>
               {featuredServices.map((service) => {
                 const IconComponent = serviceIconMap[service.icon] || Sparkles;
