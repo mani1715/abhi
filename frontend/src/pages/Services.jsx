@@ -102,8 +102,8 @@ const Services = () => {
     HeartHandshake: HeartHandshake
   };
 
-  // Featured Birthday Service
-  const featuredBirthdayService = detailedServices.find(s => s.id === 5);
+  // Featured Birthday Services - can show multiple
+  const featuredServices = detailedServices.filter(s => s.id === 5);
 
   return (
     <div className="services-page-premium">
