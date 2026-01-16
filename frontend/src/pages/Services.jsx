@@ -235,7 +235,7 @@ const Services = () => {
                     {service.image && (
                       <div style={{
                         position: 'relative',
-                        height: '140px',
+                        height: '100px',
                         overflow: 'hidden'
                       }}>
                         <img 
