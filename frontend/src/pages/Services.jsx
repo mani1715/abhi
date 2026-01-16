@@ -268,7 +268,7 @@ const Services = () => {
 
                     {/* Content Section */}
                     <div style={{
-                      padding: '16px'
+                      padding: '12px'
                     }}>
                       <div style={{
                         display: 'flex',
