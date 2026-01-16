@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional
 from datetime import datetime
 import uuid
-from database import get_database
+from database import db
 from models.service_contact import ServiceContact, ServiceContactCreate, ServiceContactUpdate
 from auth.admin_auth import get_current_admin
 
