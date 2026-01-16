@@ -182,6 +182,7 @@ function AppContent() {
             <Route path="booking-settings" element={<BookingSettings />} />
             <Route path="feelings-services" element={<FeelingsServicesManager />} />
             <Route path="service-requests" element={<ServiceRequestsManager />} />
+            <Route path="service-contacts" element={<ServiceContactsManager />} />
             <Route path="generated-links" element={<GeneratedLinksManager />} />
             <Route path="settings" element={<Settings />} />
           </Route>
