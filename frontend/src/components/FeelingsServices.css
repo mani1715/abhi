@@ -327,16 +327,16 @@
   background: linear-gradient(135deg, #6B2D3C, #8B4A5C);
   color: white;
   border: none;
-  padding: 14px 24px;
-  border-radius: 12px;
+  padding: 10px 18px;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 4px 12px rgba(107, 45, 60, 0.3);
 }
 
