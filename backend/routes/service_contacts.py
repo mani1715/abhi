@@ -6,7 +6,7 @@ from database import db
 from models.service_contact import ServiceContact, ServiceContactCreate, ServiceContactUpdate
 from auth.admin_auth import get_current_admin
 
-router = APIRouter(prefix="/api/service-contacts", tags=["service-contacts"])
+router = APIRouter(prefix="/service-contacts", tags=["service-contacts"])
 
 # Public endpoint - Create service contact request
 @router.post("/", response_model=ServiceContact)
