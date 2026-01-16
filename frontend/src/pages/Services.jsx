@@ -612,7 +612,7 @@ const Services = () => {
                   
                   <div className="service-card-header-detailed">
                     <div className="service-icon-detailed">
-                      <IconComponent className="h-10 w-10" />
+                      <IconComponent className="h-6 w-6" />
                     </div>
                   </div>
                   
