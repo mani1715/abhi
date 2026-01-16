@@ -2,10 +2,10 @@
 
 ## 🚀 Access Your Application
 
-**Live URL:** https://abhi-personal.preview.emergentagent.com
+**Live URL:** https://digital-canvas-94.preview.emergentagent.com
 
 ### Admin Panel Login
-**URL:** https://abhi-personal.preview.emergentagent.com/admin/login
+**URL:** https://digital-canvas-94.preview.emergentagent.com/admin/login
 
 ```
 Username: admin
@@ -315,9 +315,9 @@ Your portfolio management system is now fully operational with:
 ---
 
 **Quick Links:**
-- Admin Login: https://abhi-personal.preview.emergentagent.com/admin/login
-- Client Login: https://abhi-personal.preview.emergentagent.com/client/login
-- Main Site: https://abhi-personal.preview.emergentagent.com
+- Admin Login: https://digital-canvas-94.preview.emergentagent.com/admin/login
+- Client Login: https://digital-canvas-94.preview.emergentagent.com/client/login
+- Main Site: https://digital-canvas-94.preview.emergentagent.com
 
 **Documentation:**
 - Full fix details: `/app/MIXED_CONTENT_FIX_COMPLETE.md`
