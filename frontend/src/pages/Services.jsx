@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Code, ShoppingCart, Layers, Palette, Sparkles,
   CheckCircle, Zap, Award, Smartphone, Code2, Search, Shield,
-  FileSearch, CheckCircle2, Rocket, HeartHandshake
+  FileSearch, CheckCircle2, Rocket, HeartHandshake, X
 } from 'lucide-react';
 import { detailedServices, whyChooseUs, processSteps } from '../data/mock';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Label } from '../components/ui/label';
+import { toast } from 'sonner';
 import { trackPageView } from '../services/analytics';
 import FeelingsServicesSection from '../components/FeelingsServicesSection';
+import api from '../services/api';
 import './pages.css';
 import './Services.css';
 
