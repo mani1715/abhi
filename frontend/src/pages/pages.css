@@ -590,7 +590,7 @@
 /* ========== RESPONSIVE - SERVICES PAGE ========== */
 @media (max-width: 1024px) {
   .detailed-services-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 350px));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 300px));
     gap: 1.5rem;
   }
   
