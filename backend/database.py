@@ -84,6 +84,7 @@ bookings_collection = db["bookings"]
 booking_settings_collection = db["booking_settings"]
 feelings_services_collection = db["feelings_services"]
 service_requests_collection = db["service_requests"]
+service_contacts_collection = db["service_contacts"]
 generated_links_collection = db["generated_links"]
 
 # ---------------- CLEAN SHUTDOWN ----------------
