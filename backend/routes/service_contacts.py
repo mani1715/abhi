@@ -15,8 +15,6 @@ async def create_service_contact(contact: ServiceContactCreate):
     Create a new service contact request (Public endpoint)
     """
     try:
-        db = await get_database()
-        
         contact_id = str(uuid.uuid4())
         now = datetime.utcnow().isoformat()
         
