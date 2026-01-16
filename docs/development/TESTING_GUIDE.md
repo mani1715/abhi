@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://abhi-service-hub.preview.emergentagent.com
+**Preview URL**: https://side-service.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://abhi-service-hub.preview.emergentagent.com/admin/login
+- **URL**: https://side-service.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
