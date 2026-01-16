@@ -23,23 +23,21 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Logo Text Only */}
+        {/* Logo with Image */}
         <Link to="/" className="navbar-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          textDecoration: 'none'
+          textDecoration: 'none',
+          gap: '12px'
         }}>
-          <span className="logo-text" style={{
-            fontSize: '24px',
-            fontWeight: '700',
-            background: 'linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #8B5CF6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            letterSpacing: '0.5px'
-          }}>
-            {agencyInfo.name}
-          </span>
+          <img 
+            src="/prompt-forge-logo.png" 
+            alt="Prompt Forge Logo" 
+            style={{
+              height: '40px',
+              objectFit: 'contain'
+            }}
+          />
         </Link>
 
         {/* Desktop Navigation */}

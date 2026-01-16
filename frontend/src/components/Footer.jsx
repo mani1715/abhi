@@ -80,15 +80,15 @@ const Footer = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '3rem' }}>
               {/* Brand Section */}
               <div style={{ flex: '1' }}>
-                <h3 className="footer-logo" style={{
-                  color: '#FFFFFF',
-                  fontWeight: '700',
-                  fontSize: '28px',
-                  letterSpacing: '0.5px',
-                  marginBottom: '10px'
-                }}>
-                  {agencyInfo.name}
-                </h3>
+                <img 
+                  src="/prompt-forge-logo.png" 
+                  alt="Prompt Forge Logo" 
+                  style={{
+                    height: '60px',
+                    marginBottom: '12px',
+                    objectFit: 'contain'
+                  }}
+                />
                 <p className="footer-tagline" style={{ color: '#D1D5DB', fontWeight: '500', marginBottom: '1rem' }}>{agencyInfo.tagline}</p>
                 <div className="footer-social">
                   <a

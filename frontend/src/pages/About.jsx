@@ -51,7 +51,7 @@ const About = () => {
     hero_description: "Building exceptional digital experiences that transform businesses and delight users worldwide.",
     story_title: "Our Story",
     story_paragraphs: [
-      "Founded by Maneesh, a passionate and skilled full-stack developer, Prompt Forge was born from a vision to help businesses thrive in the digital age.",
+      "Founded by Abhishake, a passionate and skilled full-stack developer, Prompt Forge was born from a vision to help businesses thrive in the digital age.",
       "We specialize in full-stack development, creating custom websites and e-commerce platforms that perform exceptionally.",
     ],
     story_expertise: [
@@ -80,9 +80,9 @@ const About = () => {
     ],
     founder_badge: "Meet the Founder",
     founder_title: "The Mind Behind Prompt Forge",
-    founder_name: "Maneesh",
+    founder_name: "Abhishake",
     founder_role: "Full-Stack Developer & Founder",
-    founder_bio: "With a passion for creating seamless digital experiences, Maneesh brings years of expertise in full-stack development.",
+    founder_bio: "With a passion for creating seamless digital experiences, Abhishake brings years of expertise in full-stack development.",
     founder_skills: ["HTML, CSS, JavaScript", "React & Node.js", "Full-Stack Development", "E-commerce Solutions"],
     cta_title: "Ready to Start Your Project?",
     cta_description: "Let's collaborate to bring your vision to life.",
