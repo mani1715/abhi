@@ -74,7 +74,6 @@ async def get_service_contact(
     Get a specific service contact by ID (Admin only)
     """
     try:
-        db = await get_database()
         contact = await db.service_contacts.find_one({"id": contact_id})
         
         if not contact:
