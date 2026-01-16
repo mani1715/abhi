@@ -273,8 +273,8 @@ const Services = () => {
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px',
-                        marginBottom: '12px'
+                        gap: '6px',
+                        marginBottom: '8px'
                       }}>
                         <div style={{
                           width: '36px',
