@@ -384,17 +384,17 @@ const Services = () => {
                           style={{
                             background: 'linear-gradient(135deg, #7C5CFF 0%, #A78BFA 100%)',
                             color: '#ffffff',
-                            padding: '8px 14px',
+                            padding: '6px 10px',
                             borderRadius: '6px',
                             fontWeight: '600',
-                            fontSize: '12px',
+                            fontSize: '11px',
                             border: 'none',
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
                             boxShadow: '0 3px 10px rgba(124, 92, 255, 0.4)',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '4px',
+                            gap: '3px',
                             flex: 1
                           }}
                           onMouseEnter={(e) => {
