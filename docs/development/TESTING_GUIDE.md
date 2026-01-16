@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://dev-abhi.preview.emergentagent.com
+**Preview URL**: https://abhi-personal.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://dev-abhi.preview.emergentagent.com/admin/login
+- **URL**: https://abhi-personal.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
