@@ -102,6 +102,23 @@ export const detailedServices = [
       'Usability Testing',
       'Design System Creation'
     ]
+  },
+  {
+    id: 5,
+    icon: 'Sparkles',
+    title: 'Custom Birthday & Event Websites',
+    description: 'Create unforgettable digital celebrations! Personalized interactive websites for birthdays, anniversaries, and special occasions. Surprise your loved ones with a unique digital experience featuring photos, music, messages, and interactive elements that make memories last forever.',
+    features: [
+      'Personalized Interactive Experiences',
+      'Photo Galleries & Memory Timelines',
+      'Custom Music & Audio Integration',
+      'Interactive Surprise Reveals',
+      'Mobile-Friendly Celebrations',
+      'Social Media Sharing Features'
+    ],
+    price: 'Starting at ₹2,999',
+    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=80',
+    demoLink: 'https://birthday-website-for-siblings-by-pfin.netlify.app/'
   }
 ];
 
