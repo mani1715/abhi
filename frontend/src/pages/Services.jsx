@@ -151,14 +151,14 @@ const Services = () => {
         </div>
       </section>
 
-      {/* FEATURED SERVICE - BIRTHDAY WEBSITE (SEPARATE & AT TOP) */}
-      {featuredBirthdayService && (
+      {/* FEATURED SERVICES - GRID LAYOUT (SMALLER CARDS) */}
+      {featuredServices.length > 0 && (
         <section style={{
-          padding: '80px 0',
+          padding: '60px 0',
           background: 'linear-gradient(135deg, #FFF5F7 0%, #F3E8FF 100%)',
           position: 'relative',
           overflow: 'hidden'
-        }} data-admin-editable="featured-birthday-service">
+        }} data-admin-editable="featured-services">
           <div style={{
             maxWidth: '1200px',
             margin: '0 auto',
@@ -167,7 +167,7 @@ const Services = () => {
             {/* Section Badge */}
             <div style={{
               textAlign: 'center',
-              marginBottom: '48px'
+              marginBottom: '40px'
             }}>
               <div style={{
                 display: 'inline-flex',
@@ -175,255 +175,406 @@ const Services = () => {
                 gap: '8px',
                 background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
                 color: '#ffffff',
-                padding: '12px 24px',
+                padding: '10px 20px',
                 borderRadius: '50px',
                 fontSize: '14px',
                 fontWeight: '600',
                 marginBottom: '16px',
                 boxShadow: '0 4px 12px rgba(212, 175, 55, 0.3)'
               }}>
-                <Sparkles className="h-5 w-5" />
-                <span>Featured Special Service</span>
+                <Sparkles className="h-4 w-4" />
+                <span>Featured Special Services</span>
               </div>
               <h2 style={{
-                fontSize: '42px',
+                fontSize: '36px',
                 fontWeight: '700',
                 color: '#1C2A3A',
-                marginBottom: '16px'
+                marginBottom: '12px'
               }}>
                 Create Unforgettable Moments
               </h2>
               <p style={{
-                fontSize: '18px',
+                fontSize: '16px',
                 color: '#64748b',
-                maxWidth: '700px',
+                maxWidth: '600px',
                 margin: '0 auto'
               }}>
                 Transform special occasions into magical digital experiences
               </p>
             </div>
 
-            {/* Featured Service Card */}
-            <Card style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #fefcff 100%)',
-              border: '2px solid',
-              borderImage: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%) 1',
-              borderRadius: '24px',
-              padding: '0',
-              overflow: 'hidden',
-              boxShadow: '0 20px 60px rgba(124, 92, 255, 0.2)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-8px)';
-              e.currentTarget.style.boxShadow = '0 30px 80px rgba(124, 92, 255, 0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 20px 60px rgba(124, 92, 255, 0.2)';
+            {/* Featured Services Grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+              gap: '24px'
             }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '0'
-              }}>
-                {/* Image Side */}
-                <div style={{
-                  position: 'relative',
-                  minHeight: '400px',
-                  overflow: 'hidden'
-                }}>
-                  <img 
-                    src={featuredBirthdayService.image}
-                    alt={featuredBirthdayService.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0
-                    }}
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    top: '20px',
-                    right: '20px',
-                    background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
-                    color: '#0f172a',
-                    padding: '12px 24px',
-                    borderRadius: '50px',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+              {featuredServices.map((service) => {
+                const IconComponent = serviceIconMap[service.icon] || Sparkles;
+                return (
+                  <Card key={service.id} style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fefcff 100%)',
+                    border: '2px solid',
+                    borderImage: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%) 1',
+                    borderRadius: '16px',
+                    padding: '0',
+                    overflow: 'hidden',
+                    boxShadow: '0 10px 30px rgba(124, 92, 255, 0.15)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 15px 40px rgba(124, 92, 255, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(124, 92, 255, 0.15)';
                   }}>
-                    {featuredBirthdayService.price}
-                  </div>
-                </div>
+                    {/* Image Section */}
+                    {service.image && (
+                      <div style={{
+                        position: 'relative',
+                        height: '200px',
+                        overflow: 'hidden'
+                      }}>
+                        <img 
+                          src={service.image}
+                          alt={service.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                        {service.price && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
+                            color: '#0f172a',
+                            padding: '8px 16px',
+                            borderRadius: '50px',
+                            fontWeight: '700',
+                            fontSize: '14px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+                          }}>
+                            {service.price}
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                {/* Content Side */}
-                <div style={{
-                  padding: '48px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '24px'
-                  }}>
+                    {/* Content Section */}
                     <div style={{
-                      width: '56px',
-                      height: '56px',
-                      background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
-                      borderRadius: '16px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 4px 12px rgba(124, 92, 255, 0.3)'
+                      padding: '24px'
                     }}>
-                      <Sparkles className="h-8 w-8" style={{ color: '#ffffff' }} />
-                    </div>
-                  </div>
-
-                  <h3 style={{
-                    fontSize: '32px',
-                    fontWeight: '700',
-                    color: '#1C2A3A',
-                    marginBottom: '16px',
-                    lineHeight: '1.2'
-                  }}>
-                    {featuredBirthdayService.title}
-                  </h3>
-
-                  <p style={{
-                    fontSize: '16px',
-                    color: '#64748b',
-                    lineHeight: '1.7',
-                    marginBottom: '32px'
-                  }}>
-                    {featuredBirthdayService.description}
-                  </p>
-
-                  {/* Features List */}
-                  <div style={{
-                    marginBottom: '32px'
-                  }}>
-                    <h4 style={{
-                      fontSize: '18px',
-                      fontWeight: '600',
-                      color: '#1C2A3A',
-                      marginBottom: '16px'
-                    }}>
-                      ✨ What's Included:
-                    </h4>
-                    <ul style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      margin: 0,
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                      gap: '12px'
-                    }}>
-                      {featuredBirthdayService.features.map((feature, idx) => (
-                        <li key={idx} style={{
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        marginBottom: '16px'
+                      }}>
+                        <div style={{
+                          width: '48px',
+                          height: '48px',
+                          background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
+                          borderRadius: '12px',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
-                          fontSize: '15px',
-                          color: '#334155'
+                          justifyContent: 'center',
+                          boxShadow: '0 4px 12px rgba(124, 92, 255, 0.3)'
                         }}>
-                          <CheckCircle style={{
-                            color: '#7C5CFF',
-                            flexShrink: 0,
-                            width: '20px',
-                            height: '20px'
-                          }} />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                          <IconComponent className="h-6 w-6" style={{ color: '#ffffff' }} />
+                        </div>
+                      </div>
 
-                  {/* Action Buttons */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '16px',
-                    flexWrap: 'wrap'
-                  }}>
-                    {featuredBirthdayService.demoLink && (
-                      <a 
-                        href={featuredBirthdayService.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
-                          color: '#0f172a',
-                          padding: '14px 32px',
-                          borderRadius: '12px',
-                          textDecoration: 'none',
-                          fontWeight: '600',
-                          fontSize: '16px',
-                          transition: 'all 0.3s ease',
-                          boxShadow: '0 4px 12px rgba(234, 179, 8, 0.4)',
-                          border: 'none',
-                          cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 6px 20px rgba(234, 179, 8, 0.5)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(234, 179, 8, 0.4)';
-                        }}
-                      >
-                        <Sparkles size={20} />
-                        View Live Demo
-                        <ArrowRight size={20} />
-                      </a>
-                    )}
-                    
-                    <Link to="/contact">
-                      <Button style={{
-                        background: 'linear-gradient(135deg, #7C5CFF 0%, #A78BFA 100%)',
-                        color: '#ffffff',
-                        padding: '14px 32px',
-                        borderRadius: '12px',
-                        fontWeight: '600',
-                        fontSize: '16px',
-                        border: 'none',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 12px rgba(124, 92, 255, 0.4)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 92, 255, 0.5)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(124, 92, 255, 0.4)';
+                      <h3 style={{
+                        fontSize: '22px',
+                        fontWeight: '700',
+                        color: '#1C2A3A',
+                        marginBottom: '12px',
+                        lineHeight: '1.2'
                       }}>
-                        Order Now
-                        <ArrowRight size={20} />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </Card>
+                        {service.title}
+                      </h3>
+
+                      <p style={{
+                        fontSize: '14px',
+                        color: '#64748b',
+                        lineHeight: '1.6',
+                        marginBottom: '16px'
+                      }}>
+                        {service.description.substring(0, 120)}...
+                      </p>
+
+                      {/* Features List - Compact */}
+                      <ul style={{
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: '0 0 20px 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px'
+                      }}>
+                        {service.features.slice(0, 3).map((feature, idx) => (
+                          <li key={idx} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontSize: '13px',
+                            color: '#334155'
+                          }}>
+                            <CheckCircle style={{
+                              color: '#7C5CFF',
+                              flexShrink: 0,
+                              width: '16px',
+                              height: '16px'
+                            }} />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Action Buttons */}
+                      <div style={{
+                        display: 'flex',
+                        gap: '12px',
+                        flexWrap: 'wrap'
+                      }}>
+                        {service.demoLink && (
+                          <a 
+                            href={service.demoLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              background: 'linear-gradient(135deg, #D4AF37 0%, #f59e0b 100%)',
+                              color: '#0f172a',
+                              padding: '10px 20px',
+                              borderRadius: '8px',
+                              textDecoration: 'none',
+                              fontWeight: '600',
+                              fontSize: '14px',
+                              transition: 'all 0.3s ease',
+                              boxShadow: '0 4px 12px rgba(234, 179, 8, 0.4)',
+                              border: 'none',
+                              cursor: 'pointer',
+                              flex: 1
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-2px)';
+                              e.currentTarget.style.boxShadow = '0 6px 20px rgba(234, 179, 8, 0.5)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)';
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(234, 179, 8, 0.4)';
+                            }}
+                          >
+                            <Sparkles size={16} />
+                            View Demo
+                          </a>
+                        )}
+                        
+                        <Button 
+                          onClick={() => handleContactClick(service)}
+                          style={{
+                            background: 'linear-gradient(135deg, #7C5CFF 0%, #A78BFA 100%)',
+                            color: '#ffffff',
+                            padding: '10px 20px',
+                            borderRadius: '8px',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(124, 92, 255, 0.4)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            flex: 1
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 92, 255, 0.5)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(124, 92, 255, 0.4)';
+                          }}>
+                          Contact Us
+                          <ArrowRight size={16} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
+
+      {/* Contact Form Dialog */}
+      <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
+        <DialogContent style={{
+          maxWidth: '500px',
+          background: 'linear-gradient(135deg, #ffffff 0%, #fefcff 100%)',
+          borderRadius: '16px',
+          padding: '32px'
+        }}>
+          <DialogHeader>
+            <DialogTitle style={{
+              fontSize: '24px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #D4AF37 0%, #7C5CFF 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              marginBottom: '8px'
+            }}>
+              Contact Us for {selectedService?.title}
+            </DialogTitle>
+            <DialogDescription style={{ fontSize: '14px', color: '#64748b' }}>
+              Fill in your details and we'll get back to you soon!
+            </DialogDescription>
+          </DialogHeader>
+          
+          <form onSubmit={handleSubmitContact} style={{ marginTop: '24px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div>
+                <Label htmlFor="customer_name" style={{ fontSize: '14px', fontWeight: '600', color: '#334155' }}>
+                  Your Name *
+                </Label>
+                <Input
+                  id="customer_name"
+                  name="customer_name"
+                  value={formData.customer_name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="John Doe"
+                  style={{
+                    marginTop: '8px',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '2px solid #e2e8f0',
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="customer_email" style={{ fontSize: '14px', fontWeight: '600', color: '#334155' }}>
+                  Email Address *
+                </Label>
+                <Input
+                  id="customer_email"
+                  name="customer_email"
+                  type="email"
+                  value={formData.customer_email}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="john@example.com"
+                  style={{
+                    marginTop: '8px',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '2px solid #e2e8f0',
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="customer_phone" style={{ fontSize: '14px', fontWeight: '600', color: '#334155' }}>
+                  Phone Number *
+                </Label>
+                <Input
+                  id="customer_phone"
+                  name="customer_phone"
+                  type="tel"
+                  value={formData.customer_phone}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="+91-9876543210"
+                  style={{
+                    marginTop: '8px',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '2px solid #e2e8f0',
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="message" style={{ fontSize: '14px', fontWeight: '600', color: '#334155' }}>
+                  Message (Optional)
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Tell us about your requirements..."
+                  rows={4}
+                  style={{
+                    marginTop: '8px',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '2px solid #e2e8f0',
+                    fontSize: '14px',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                marginTop: '8px'
+              }}>
+                <Button
+                  type="button"
+                  onClick={() => setShowContactForm(false)}
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '2px solid #e2e8f0',
+                    background: '#ffffff',
+                    color: '#334155',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '8px',
+                    background: 'linear-gradient(135deg, #7C5CFF 0%, #A78BFA 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    fontWeight: '600',
+                    cursor: submitting ? 'not-allowed' : 'pointer',
+                    opacity: submitting ? 0.7 : 1
+                  }}
+                >
+                  {submitting ? 'Submitting...' : 'Submit Request'}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* DETAILED SERVICES GRID SECTION */}
       <section className="detailed-services-section" data-admin-editable="detailed-services">
