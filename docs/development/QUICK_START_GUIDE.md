@@ -2,10 +2,10 @@
 
 ## 🚀 Access Your Application
 
-**Live URL:** https://side-service.preview.emergentagent.com
+**Live URL:** https://compact-services-1.preview.emergentagent.com
 
 ### Admin Panel Login
-**URL:** https://side-service.preview.emergentagent.com/admin/login
+**URL:** https://compact-services-1.preview.emergentagent.com/admin/login
 
 ```
 Username: admin
@@ -315,9 +315,9 @@ Your portfolio management system is now fully operational with:
 ---
 
 **Quick Links:**
-- Admin Login: https://side-service.preview.emergentagent.com/admin/login
-- Client Login: https://side-service.preview.emergentagent.com/client/login
-- Main Site: https://side-service.preview.emergentagent.com
+- Admin Login: https://compact-services-1.preview.emergentagent.com/admin/login
+- Client Login: https://compact-services-1.preview.emergentagent.com/client/login
+- Main Site: https://compact-services-1.preview.emergentagent.com
 
 **Documentation:**
 - Full fix details: `/app/MIXED_CONTENT_FIX_COMPLETE.md`

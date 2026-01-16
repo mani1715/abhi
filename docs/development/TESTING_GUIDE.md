@@ -2,10 +2,10 @@
 
 ## Access the Application
 
-**Preview URL**: https://side-service.preview.emergentagent.com
+**Preview URL**: https://compact-services-1.preview.emergentagent.com
 
 ## Admin Login Credentials
-- **URL**: https://side-service.preview.emergentagent.com/admin/login
+- **URL**: https://compact-services-1.preview.emergentagent.com/admin/login
 - **Username**: `admin`
 - **Password**: `admin123`
 - ⚠️ **Important**: Change this password after first login!
