@@ -374,7 +374,7 @@ const Services = () => {
                               e.currentTarget.style.boxShadow = '0 3px 10px rgba(234, 179, 8, 0.4)';
                             }}
                           >
-                            <Sparkles size={14} />
+                            <Sparkles size={12} />
                             View Demo
                           </a>
                         )}
