@@ -7,7 +7,8 @@ class Service(BaseModel):
     title: str
     description: str
     icon: str
-    image: Optional[str] = None  # Service image/photo URL
+    image: Optional[str] = None  # Primary service image/photo URL (backward compatibility)
+    images: List[str] = []  # Multiple service images (URLs or uploaded file paths)
     link: Optional[str] = None  # External or internal link
     link_text: Optional[str] = "Learn More"  # Link button text
     features: List[str] = []
