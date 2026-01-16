@@ -243,26 +243,26 @@
 .service-badge {
   background: linear-gradient(135deg, #6B2D3C, #8B4A5C);
   color: white;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
   font-weight: 600;
   box-shadow: 0 4px 8px rgba(107, 45, 60, 0.2);
 }
 
 .service-name-feelings {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #6B2D3C;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-family: 'Georgia', serif;
 }
 
 .service-description-feelings {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: #8B5A6C;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
 .service-features-feelings {
