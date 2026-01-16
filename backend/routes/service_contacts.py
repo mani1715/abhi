@@ -97,8 +97,6 @@ async def update_service_contact(
     Update a service contact (Admin only)
     """
     try:
-        db = await get_database()
-        
         # Prepare update data
         update_dict = {}
         if update_data.status is not None:
